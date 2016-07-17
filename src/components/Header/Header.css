@@ -20,6 +20,8 @@
 
 .container {
   margin: 0 auto;
+  float: none;
+  text-align: center;
   padding: 20px 0;
   max-width: var(--max-content-width);
 }
@@ -35,7 +37,6 @@
 }
 
 .nav {
-  float: right;
   margin-top: 6px;
 }
 
