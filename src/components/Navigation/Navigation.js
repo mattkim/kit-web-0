@@ -17,11 +17,13 @@ function Navigation({ className }) {
   return (
     <div className={cx(s.root, className)} role="navigation">
       <Link className={s.link} to="/">Home</Link>
-      <Link className={s.link} to="/about">About</Link>
+      <Link className={s.link} to="/post">Post</Link>
+      {/*
       <Link className={s.link} to="/feedback">Feedback</Link>
       <Link className={s.link} to="/profile">Profile</Link>
       <Link className={s.link} to="/login">Log in</Link>
       <Link className={s.link} to="/register">Sign up</Link>
+      */}
     </div>
   );
 }

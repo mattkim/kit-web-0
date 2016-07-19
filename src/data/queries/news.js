@@ -13,7 +13,7 @@ import NewsItemType from '../types/NewsItemType';
 
 // React.js News Feed (RSS)
 const url = 'http://ajax.googleapis.com/ajax/services/feed/load' +
-            '?v=1.0&num=10&q=https://reactjsnews.com/feed.xml';
+            '?v=1.0&num=5&q=https://reactjsnews.com/feed.xml';
 
 let items = [];
 let lastFetchTask;
@@ -22,6 +22,8 @@ let lastFetchTime = new Date(1970, 0, 1);
 const news = {
   type: new List(NewsItemType),
   resolve() {
+    // TODO: Basically if I change this out to be the result
+    // from go server, it will just work...
     if (lastFetchTask) {
       return lastFetchTask;
     }

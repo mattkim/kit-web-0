@@ -18,7 +18,6 @@ function Home({ news }, context) {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <h1 className={s.title}>React.js News</h1>
         <ul className={s.news}>
           {news.map((item, index) => (
             <li key={index} className={s.newsItem}>
@@ -28,6 +27,10 @@ function Home({ news }, context) {
                 dangerouslySetInnerHTML={{ __html: item.contentSnippet }}
               />
             </li>
+            /*
+              TODO: Implement loading more posts as we scroll down
+              TODO: implement getting current lat/lng of user
+            */
           ))}
         </ul>
       </div>

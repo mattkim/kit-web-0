@@ -12,6 +12,7 @@ import App from '../components/App';
 
 // Child routes
 import home from './home';
+import post from './post';
 import contact from './contact';
 import feedback from './feedback';
 import profile from './profile';
@@ -26,6 +27,7 @@ export default {
 
   children: [
     home,
+    post,
     contact,
     feedback,
     profile,
