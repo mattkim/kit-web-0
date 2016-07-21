@@ -8,6 +8,7 @@
  */
 
 import React, { Component } from 'react';
+import fetch from '../../core/fetch';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Feed.css';
 
@@ -22,8 +23,33 @@ class Feed extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { count: props.initialCount };
+    this.state = {
+      count: props.initialCount,
+      feed: [],
+    };
     this.tick = this.tick.bind(this);
+  }
+
+  componentDidMount() {
+    this.getFeed();
+  }
+
+  async getFeed() {
+    // TODO: config endpoints
+    // const resp = await fetch('http://pokefeed-api.herokuapp.com/getfeed', {
+    const resp = await fetch('http://localhost:8888/getfeed?key=val', {
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    if (resp.status !== 200) throw new Error(resp.statusText);
+    // Weird but I have to await twice.
+    const data = await await resp.json();
+    if (!data) return undefined;
+    this.setState({ feed: data });
+    return data;
   }
 
   tick() {
@@ -31,21 +57,25 @@ class Feed extends Component {
   }
 
   render() {
+    let results = this.state.feed.map((row) => (
+      <li key={row.id}>
+        {row.created_by_user_uuid} <br />
+        {row.message} <br />
+        {row.pokemon} <br />
+        {row.lat} <br />
+        {row.long} <br />
+      </li>
+    ));
     return (
       <div className={s.root}>
         <div className={s.container}>
           <div onClick={this.tick}>
-            Clicks: {this.state.count}
+            Clicks: {this.state.count} <br />
+            Fetch API: <br />
+            <ul>
+              {results}
+            </ul>
           </div>
-          <a
-            className={s.link}
-            href="https://gitter.im/kriasoft/react-starter-kit"
-          >Ask a question</a>
-          <span className={s.spacer}>|</span>
-          <a
-            className={s.link}
-            href="https://github.com/kriasoft/react-starter-kit/issues/new"
-          >Report an issue</a>
         </div>
       </div>
     );
