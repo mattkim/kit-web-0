@@ -57,8 +57,8 @@ class Feed extends Component {
   }
 
   render() {
-    let results = this.state.feed.map((row) => (
-      <li key={row.id}>
+    let results = this.state.feed.map((row, index) => (
+      <li key={index}>
         {row.created_by_user_uuid} <br />
         {row.message} <br />
         {row.pokemon} <br />

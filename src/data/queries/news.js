@@ -22,8 +22,6 @@ let lastFetchTime = new Date(1970, 0, 1);
 const news = {
   type: new List(NewsItemType),
   resolve() {
-    // TODO: Basically if I change this out to be the result
-    // from go server, it will just work...
     if (lastFetchTask) {
       return lastFetchTask;
     }

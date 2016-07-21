@@ -27,10 +27,6 @@ function Home({ news }, context) {
                 dangerouslySetInnerHTML={{ __html: item.contentSnippet }}
               />
             </li>
-            /*
-              TODO: Implement loading more posts as we scroll down
-              TODO: implement getting current lat/lng of user
-            */
           ))}
         </ul>
       </div>
