@@ -10,16 +10,30 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
-import Link from '../Link';
 import Navigation from '../Navigation';
 import logoUrl from './logo-small.png';
 import cx from 'classnames';
+import {
+  Grid,
+  Row,
+  Col,
+} from 'react-bootstrap';
+
 
 function Header() {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <Navigation className={s.nav} />
+        <Grid>
+          <Row>
+            <Col xs={6} sm={6} md={6} lg={6} className={s.leftHeader}>
+              Pokefeed
+            </Col>
+            <Col xs={6} sm={6} md={6} lg={6}>
+              <Navigation className={s.rightHeader} />
+            </Col>
+          </Row>
+        </Grid>
       </div>
     </div>
   );

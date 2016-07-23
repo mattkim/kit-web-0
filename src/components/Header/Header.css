@@ -14,16 +14,26 @@
 }
 
 .root {
-  background: #373277;
-  color: #fff;
+  /*background: #373277;*/
+  border-bottom: 1px solid #ddd;
 }
 
 .container {
   margin: 0 auto;
   float: none;
-  text-align: center;
   padding: 10px 0;
-  max-width: var(--max-content-width);
+  /*max-width: var(--max-content-width);*/
+}
+
+.leftHeader {
+  font-size: 20px;
+  text-align: left;
+  margin-top: 5px;
+}
+
+.rightHeader {
+  text-align: right;
+  margin-top: 6px;
 }
 
 .brand {
@@ -54,7 +64,7 @@
 
 .bannerDesc {
   padding: 0;
-  color: rgba(255, 255, 255, 0.5);
+  /*color: rgba(255, 255, 255, 0.5);*/
   font-size: 1.25em;
   margin: 0;
 }

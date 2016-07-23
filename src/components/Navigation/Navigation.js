@@ -12,18 +12,21 @@ import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../Link';
+import TiSocialInstagramCircular from 'react-icons/lib/ti/social-instagram-circular';
+import TiPencil from 'react-icons/lib/ti/pencil';
+import TiUser from 'react-icons/lib/ti/user';
+import MdEditLocation from 'react-icons/lib/md/edit-location';
 
 function Navigation({ className }) {
   return (
     <div className={cx(s.root, className)} role="navigation">
-      <Link className={s.link} to="/">Home</Link>
-      <Link className={s.link} to="/post">Post</Link>
-      {/*
-      <Link className={s.link} to="/feedback">Feedback</Link>
-      <Link className={s.link} to="/profile">Profile</Link>
-      <Link className={s.link} to="/login">Log in</Link>
-      <Link className={s.link} to="/register">Sign up</Link>
-      */}
+      <Link to="/"><TiSocialInstagramCircular className={s.iconButton} /></Link>
+      <span className={s.spacer}></span>
+      <Link to="/post"><TiPencil className={s.iconButton} /></Link>
+      <span className={s.spacer}></span>
+      <Link to="/"><MdEditLocation className={s.iconButton} /></Link>
+      <span className={s.spacer}></span>
+      <Link to="/"><TiUser className={s.iconButton} /></Link>
     </div>
   );
 }
