@@ -10,7 +10,7 @@
 import React, { Component } from 'react';
 import fetch from '../../core/fetch';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Feed.css';
+import s from './Post.css';
 import {
   Grid,
   ListGroup,
@@ -19,7 +19,7 @@ import {
   Col,
 } from 'react-bootstrap';
 
-class Feed extends Component {
+class Post extends Component {
   static propTypes = {
     initialCount: React.PropTypes.number,
   };
@@ -203,15 +203,13 @@ class Feed extends Component {
         {row.formatted_address}
       </ListGroupItem>,
       <ListGroupItem className={innerFeedClass}>
-        <span className={s.strongText}>
-          <a href={this.pokevisionURL(row.lat, row.long)} target="_blank">
-            Pokevision
-          </a>
-          <span className={s.spacer}></span>
-          <a href={this.gmapsURL(row.lat, row.long)} target="_blank">
-            Gmaps
-          </a>
-        </span>
+        <a href={this.pokevisionURL(row.lat, row.long)} target="_blank">
+          Pokevision
+        </a>
+        <span className={s.spacer}></span>
+        <a href={this.gmapsURL(row.lat, row.long)} target="_blank">
+          Gmaps
+        </a>
       </ListGroupItem>,
     ]);
   }
@@ -233,4 +231,4 @@ class Feed extends Component {
   }
 }
 
-export default withStyles(s)(Feed);
+export default withStyles(s)(Post);
