@@ -27,7 +27,15 @@ html {
 }
 
 a {
-  color: #0074c2;
+  color: #1fad91;
+}
+
+a:hover {
+  color: #A2DB96;
+}
+
+a:active {
+  color: #085878;
 }
 
 /*

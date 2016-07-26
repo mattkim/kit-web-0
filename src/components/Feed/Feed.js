@@ -41,6 +41,7 @@ class Feed extends Component {
 
   componentDidMount() {
     this.getFeed();
+    this.handleResize(null);
     window.addEventListener('resize', this.handleResize);
   }
 
@@ -54,7 +55,7 @@ class Feed extends Component {
 
   isMobile() {
     if (this.state.windowWidth === null) {
-      return false;
+      return true;
     }
 
     return this.state.windowWidth < 480;
@@ -62,8 +63,8 @@ class Feed extends Component {
 
   async getFeed() {
     // TODO: config endpoints
-    // const resp = await fetch('http://pokefeed-api.herokuapp.com/getfeed', {
-    const resp = await fetch('http://localhost:8888/getfeed?key=val', {
+    const resp = await fetch('http://pokefeed-api.herokuapp.com/getfeed', {
+    // const resp = await fetch('http://localhost:8888/getfeed?key=val', {
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -136,43 +137,72 @@ class Feed extends Component {
   }
 
   createGroupItems(feed) {
-    return feed.map((row, index) => (
-      <ListGroup fill key={index} className={s.feedWrapper}>
-        {this.createSingleGroup(row)}
-      </ListGroup>
-    ));
+    return (
+      <Row>
+        <Col xs={0} md={2} />
+        <Col xs={12} md={8}>
+          <br />
+          {
+            feed.map((row, index) => (
+              <ListGroup fill key={index} className={s.feedWrapper}>
+                {this.createSingleGroup(row, s.innerFeed)}
+              </ListGroup>
+            ))
+          }
+        </Col>
+        <Col xs={0} md={2} />
+      </Row>
+    );
   }
 
   createCombinedGroupItems(feed) {
     // Not sure I understand why, but this needs to be a list.
     return (
-      <ListGroup fill className={s.feedWrapper}>
-        {feed.map((row) => this.createSingleGroup(row))}
-      </ListGroup>
+      <Row>
+        <ListGroup fill className={s.feedWrapper}>
+          {
+            feed.map((row) => (
+              <div className={s.feedCombinedDiv}>
+                {this.createSingleGroup(row, s.innerFeedCombined)}
+              </div>
+            ))
+          }
+        </ListGroup>
+      </Row>
     );
   }
 
-  createSingleGroup(row) {
+  createSingleGroup(row, innerFeedClass) {
+    // So this image should come from backend go server and it should have a
+    // a map between pokemon and image... also it should uri encode the image.
     return ([
-      <ListGroupItem className={s.innerFeed}>
+      <ListGroupItem className={innerFeedClass}>
         <Row>
-          <Col xs={10} sm={10} md={10} lg={10}>
-            <b>{row.username}</b> spotted a <b>{row.pokemon}</b>
+          <Col xs={2} sm={2} md={2} lg={2}>
+            <img alt={row.pokemon} className={s.profileImg} src={row.pokemon_image_url} />
           </Col>
-          <Col xs={2} sm={2} md={2} lg={2} className={s.rightFeedHeader}>
-            <b> {this.getDateDiff(row.created_at_date)}</b>
+          <Col xs={10} sm={10} md={10} lg={10} className={s.feedText}>
+            <Row>
+              <Col xs={10} sm={10} md={10} lg={10}>
+                <span className={s.strongText}>{row.username} </span>
+                spotted a <span className={s.strongText}>{row.pokemon}</span>
+              </Col>
+              <Col xs={2} sm={2} md={2} lg={2} className={s.rightFeedHeader}>
+                <span className={s.strongText}>
+                  {this.getDateDiff(row.created_at_date)}
+                </span>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </ListGroupItem>,
-      <ListGroupItem className={s.innerFeed}>
+      <ListGroupItem className={innerFeedClass}>
         {row.message}
       </ListGroupItem>,
-      <ListGroupItem className={s.innerFeed}>
+      <ListGroupItem className={innerFeedClass}>
         {row.formatted_address}
-        <span className={s.spacer}></span>
-        {row.lat}, {row.long}
       </ListGroupItem>,
-      <ListGroupItem className={s.innerFeed}>
+      <ListGroupItem className={innerFeedClass}>
         <a href={this.pokevisionURL(row.lat, row.long)} target="_blank">
           Pokevision
         </a>
@@ -191,16 +221,9 @@ class Feed extends Component {
       <div className={s.root}>
         <div className={s.container}>
           <Grid>
-            <Row>
-              <Col xs={0} md={2} />
-              <Col xs={12} md={8}>
-                <br />
-                {this.isMobile() ?
-                  this.createCombinedGroupItems(this.state.feed) :
-                  this.createGroupItems(this.state.feed)}
-              </Col>
-              <Col xs={0} md={2} />
-            </Row>
+            {this.isMobile() ?
+              this.createCombinedGroupItems(this.state.feed) :
+              this.createGroupItems(this.state.feed)}
           </Grid>
         </div>
       </div>

@@ -27,6 +27,7 @@ class Header extends Component {
   }
 
   componentDidMount() {
+    this.handleResize(null);
     window.addEventListener('resize', this.handleResize);
   }
 
@@ -40,7 +41,7 @@ class Header extends Component {
 
   isMobile() {
     if (this.state.windowWidth === null) {
-      return false;
+      return true;
     }
 
     return this.state.windowWidth < 480;
@@ -50,7 +51,7 @@ class Header extends Component {
     return (
       <Row>
         <Col xs={6} sm={6} md={6} lg={6} className={s.leftHeader}>
-          Pokefeed
+          <span>Pokefeed</span>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6}>
           <Navigation className={s.rightHeader} />
