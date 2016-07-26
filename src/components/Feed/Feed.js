@@ -33,18 +33,37 @@ class Feed extends Component {
     this.state = {
       count: props.initialCount,
       feed: [],
+      windowWidth: null,
     };
     this.tick = this.tick.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
 
   componentDidMount() {
     this.getFeed();
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize(e) {
+    this.setState({ windowWidth: window.innerWidth });
+  }
+
+  isMobile() {
+    if (this.state.windowWidth === null) {
+      return false;
+    }
+
+    return this.state.windowWidth < 480;
   }
 
   async getFeed() {
     // TODO: config endpoints
-    const resp = await fetch('http://pokefeed-api.herokuapp.com/getfeed', {
-    // const resp = await fetch('http://localhost:8888/getfeed?key=val', {
+    // const resp = await fetch('http://pokefeed-api.herokuapp.com/getfeed', {
+    const resp = await fetch('http://localhost:8888/getfeed?key=val', {
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -117,49 +136,52 @@ class Feed extends Component {
   }
 
   createGroupItems(feed) {
-    return feed.map((row) => (
-      <ListGroup fill className={s.feedWrapper}>
-        <ListGroupItem className={s.innerFeed}>
-          <Row>
-            <Col xs={10} sm={10} md={10} lg={10}>
-              <b>{row.username}</b> spotted a <b>{row.pokemon}</b>
-            </Col>
-            <Col xs={2} sm={2} md={2} lg={2} className={s.rightFeedHeader}>
-              <b> {this.getDateDiff(row.created_at_date)}</b>
-            </Col>
-          </Row>
-        </ListGroupItem>
-        <ListGroupItem className={s.innerFeed}>
-          {row.message}
-        </ListGroupItem>
-        <ListGroupItem className={s.innerFeed}>
-          {row.formatted_address}
-          <span className={s.spacer}></span>
-          {row.lat}, {row.long}
-        </ListGroupItem>
-        <ListGroupItem className={s.innerFeed}>
-          <a href={this.pokevisionURL(row.lat, row.long)} target="_blank">
-            Pokevision
-          </a>
-          <span className={s.spacer}></span>
-          <a href={this.gmapsURL(row.lat, row.long)} target="_blank">
-            Gmaps
-          </a>
-        </ListGroupItem>
+    return feed.map((row, index) => (
+      <ListGroup fill key={index} className={s.feedWrapper}>
+        {this.createSingleGroup(row)}
       </ListGroup>
     ));
   }
 
   createCombinedGroupItems(feed) {
     // Not sure I understand why, but this needs to be a list.
-    // Once window size is small we should make distance in between
-    // ListGroups smaller.
-    return feed.map((row) => ([
-      <ListGroupItem>{row.created_by_user_uuid}</ListGroupItem>,
-      <ListGroupItem>{row.pokemon}</ListGroupItem>,
-      <ListGroupItem>{row.message}</ListGroupItem>,
-      <ListGroupItem>{row.lat}, {row.long}</ListGroupItem>,
-    ]));
+    return (
+      <ListGroup fill className={s.feedWrapper}>
+        {feed.map((row) => this.createSingleGroup(row))}
+      </ListGroup>
+    );
+  }
+
+  createSingleGroup(row) {
+    return ([
+      <ListGroupItem className={s.innerFeed}>
+        <Row>
+          <Col xs={10} sm={10} md={10} lg={10}>
+            <b>{row.username}</b> spotted a <b>{row.pokemon}</b>
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} className={s.rightFeedHeader}>
+            <b> {this.getDateDiff(row.created_at_date)}</b>
+          </Col>
+        </Row>
+      </ListGroupItem>,
+      <ListGroupItem className={s.innerFeed}>
+        {row.message}
+      </ListGroupItem>,
+      <ListGroupItem className={s.innerFeed}>
+        {row.formatted_address}
+        <span className={s.spacer}></span>
+        {row.lat}, {row.long}
+      </ListGroupItem>,
+      <ListGroupItem className={s.innerFeed}>
+        <a href={this.pokevisionURL(row.lat, row.long)} target="_blank">
+          Pokevision
+        </a>
+        <span className={s.spacer}></span>
+        <a href={this.gmapsURL(row.lat, row.long)} target="_blank">
+          Gmaps
+        </a>
+      </ListGroupItem>,
+    ]);
   }
 
   render() {
@@ -173,7 +195,9 @@ class Feed extends Component {
               <Col xs={0} md={2} />
               <Col xs={12} md={8}>
                 <br />
-                {this.createGroupItems(this.state.feed)}
+                {this.isMobile() ?
+                  this.createCombinedGroupItems(this.state.feed) :
+                  this.createGroupItems(this.state.feed)}
               </Col>
               <Col xs={0} md={2} />
             </Row>

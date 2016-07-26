@@ -36,6 +36,11 @@
   margin-top: 6px;
 }
 
+.rightHeaderCenter {
+  text-align: center;
+  margin-top: 6px;
+}
+
 .brand {
   color: color(var(--brand-color) lightness(+10%));
   text-decoration: none;
