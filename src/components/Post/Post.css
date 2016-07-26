@@ -10,12 +10,38 @@
 @import '../variables.css';
 
 .root {
-  background: #fafafa;
+  background: #ffffff;
   color: #333;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }
 
 .container {
   font-size: 1em;
+}
+
+.buttonStyle {
+  border-radius: 50px;
+}
+
+.textAreaStyle {
+  border: none;
+  overflow: auto;
+  outline: none;
+  resize: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.formButtonsRow {
+  border-top: 1px solid #efefef;
+  text-align: center;
 }
 
 .profileImgCol {

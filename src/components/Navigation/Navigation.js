@@ -26,7 +26,7 @@ function Navigation({ className }) {
       <span className={s.spacer}></span>
       <Link to="/"><MdEditLocation className={s.iconButton} /></Link>
       <span className={s.spacer}></span>
-      <Link to="/"><TiUser className={s.iconButton} /></Link>
+      <Link to="/login"><TiUser className={s.iconButton} /></Link>
     </div>
   );
 }
