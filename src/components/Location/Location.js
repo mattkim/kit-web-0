@@ -47,7 +47,7 @@ class Location extends Component {
   }
 
   async getAddress(lat, long) {
-    const adr = `http://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&sensor=true`;
+    const adr = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&sensor=true`;
     const resp = await fetch(adr);
     if (resp.status !== 200) throw new Error(resp.statusText);
     const data = await await resp.json();
@@ -85,7 +85,7 @@ class Location extends Component {
                   style={{ width: '100%' }}
                   alt="gmaps"
                   src={
-                  `http://maps.googleapis.com/maps/api/staticmap?center=${this.state.lat},${this.state.long}&zoom=14&size=400x300&sensor=false`
+                  `https://maps.googleapis.com/maps/api/staticmap?center=${this.state.lat},${this.state.long}&zoom=14&size=400x300&sensor=false`
                   }
                 />
               </Col>
