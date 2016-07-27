@@ -103,7 +103,7 @@ class Post extends Component {
                 <br />
                 <Col sm={0} md={2} />
                 <Col sm={12} md={8} className={s.centerText}>
-                  {this.state.address}
+                  {this.state.address ? this.state.address : 'Finding current location...'}
                   <br />
                   <br />
                   <FormGroup controlId="formControlsTextarea">

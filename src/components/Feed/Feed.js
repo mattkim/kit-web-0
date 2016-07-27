@@ -250,7 +250,7 @@ class Feed extends Component {
           <Grid>
             <Row className={s.centerText}>
               <br />
-              {this.state.address}
+              {this.state.address ? this.state.address : 'Finding current location...'}
               <br />
             </Row>
             {this.isMobile() ?
