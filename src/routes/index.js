@@ -13,6 +13,7 @@ import App from '../components/App';
 // Child routes
 import home from './home';
 import post from './post';
+import location from './location';
 import contact from './contact';
 import feedback from './feedback';
 import profile from './profile';
@@ -28,6 +29,7 @@ export default {
   children: [
     home,
     post,
+    location,
     contact,
     feedback,
     profile,

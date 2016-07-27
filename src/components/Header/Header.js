@@ -51,7 +51,7 @@ class Header extends Component {
     return (
       <Row>
         <Col xs={6} sm={6} md={6} lg={6} className={s.leftHeader}>
-          <span>Pokefeed</span>
+          <span className={s.strongText}>Pokefeed</span>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6}>
           <Navigation className={s.rightHeader} />

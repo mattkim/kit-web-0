@@ -36,6 +36,7 @@ class Post extends Component {
     this.state = {
       windowWidth: null,
       windowHeight: null,
+      currentLocation: 130,
     };
     this.handleResize = this.handleResize.bind(this);
   }
@@ -80,12 +81,29 @@ class Post extends Component {
                   <FormGroup controlId="formControlsTextarea">
                     <FormControl
                       componentClass="textarea"
-                      placeholder="Share your thoughts"
+                      placeholder="Share the moment"
                       ref="nameInput"
                       className={s.textAreaStyle}
-                      style={{ height: this.state.windowHeight * 0.75 }}
+                      style={{ height: this.state.windowHeight * 0.25 }}
                       autofocus
                     />
+                  </FormGroup>
+                </Col>
+                <Col sm={0} md={2} />
+              </Row>
+              <Row>
+                <Col sm={0} md={2} />
+                <Col sm={12} md={8}>
+                  <FormGroup controlId="formControlsSelect">
+                    <FormControl
+                      componentClass="select"
+                      placeholder="Bulbasaur"
+                      className={s.selectStyle}
+                    >
+                      <option value="bulbasaur">Bulbasaur</option>
+                      <option value="charmander">Charmander</option>
+                      <option value="squirtle">Squirtle</option>
+                    </FormControl>
                   </FormGroup>
                 </Col>
                 <Col sm={0} md={2} />

@@ -28,6 +28,8 @@ import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port, auth } from './config';
+import https from 'https';
+import http from 'http';
 
 const app = express();
 
@@ -148,4 +150,8 @@ models.sync().catch(err => console.error(err.stack)).then(() => {
     console.log(`The server is running at http://localhost:${port}/`);
   });
 });
+
+// https(app).listen(port, () => {
+//   console.log(`The server is running at https://localhost:${port}/`);
+// });
 /* eslint-enable no-console */
