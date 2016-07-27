@@ -63,7 +63,7 @@ class Feed extends Component {
 
   async getFeed() {
     // TODO: config endpoints
-    const resp = await fetch('http://pokefeed-api.herokuapp.com/getfeed', {
+    const resp = await fetch('https://pokefeed-api.herokuapp.com/getfeed', {
     // const resp = await fetch('http://localhost:8888/getfeed?key=val', {
       method: 'get',
       headers: {
