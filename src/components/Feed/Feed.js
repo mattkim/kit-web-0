@@ -8,9 +8,11 @@
  */
 
 import React, { Component } from 'react';
+import cx from 'classnames';
 import fetch from '../../core/fetch';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Feed.css';
+import { apiUrl } from '../../config';
 import {
   Grid,
   ListGroup,
@@ -34,15 +36,20 @@ class Feed extends Component {
       count: props.initialCount,
       feed: [],
       windowWidth: null,
+      lat: 37.7786255,
+      long: -122.4295503,
+      address: null,
     };
     this.tick = this.tick.bind(this);
     this.handleResize = this.handleResize.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   componentDidMount() {
     this.getFeed();
     this.handleResize(null);
     window.addEventListener('resize', this.handleResize);
+    navigator.geolocation.getCurrentPosition(this.handleLocation);
   }
 
   componentWillUnmount() {
@@ -61,10 +68,28 @@ class Feed extends Component {
     return this.state.windowWidth < 480;
   }
 
+  async getAddress(lat, long) {
+    const adr = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&sensor=true`;
+    const resp = await fetch(adr);
+    if (resp.status !== 200) throw new Error(resp.statusText);
+    const data = await await resp.json();
+    if (!data) return undefined;
+    this.setState({ address: data.results[0].formatted_address });
+    return data;
+  }
+
+  handleLocation(position) {
+    // Set this globally
+    this.setState({
+      lat: position.coords.latitude,
+      long: position.coords.longitude,
+    });
+
+    this.getAddress(position.coords.latitude, position.coords.longitude);
+  }
+
   async getFeed() {
-    // TODO: config endpoints
-    const resp = await fetch('https://pokefeed-api.herokuapp.com/getfeed', {
-    // const resp = await fetch('http://localhost:8888/getfeed?key=val', {
+    const resp = await fetch(`${apiUrl}/getfeed`, {
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -223,6 +248,11 @@ class Feed extends Component {
       <div className={s.root}>
         <div className={s.container}>
           <Grid>
+            <Row className={s.centerText}>
+              <br />
+              {this.state.address}
+              <br />
+            </Row>
             {this.isMobile() ?
               this.createCombinedGroupItems(this.state.feed) :
               this.createGroupItems(this.state.feed)}

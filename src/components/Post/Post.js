@@ -37,18 +37,43 @@ class Post extends Component {
       windowWidth: null,
       windowHeight: null,
       currentLocation: 130,
+      lat: 37.7786255,
+      long: -122.4295503,
+      address: null,
     };
     this.handleResize = this.handleResize.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   componentDidMount() {
     ReactDOM.findDOMNode(this.refs.nameInput).focus();
     this.handleResize(null);
     window.addEventListener('resize', this.handleResize);
+    navigator.geolocation.getCurrentPosition(this.handleLocation);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
+  }
+
+  async getAddress(lat, long) {
+    const adr = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&sensor=true`;
+    const resp = await fetch(adr);
+    if (resp.status !== 200) throw new Error(resp.statusText);
+    const data = await await resp.json();
+    if (!data) return undefined;
+    this.setState({ address: data.results[0].formatted_address });
+    return data;
+  }
+
+  handleLocation(position) {
+    // Set this globally
+    this.setState({
+      lat: position.coords.latitude,
+      long: position.coords.longitude,
+    });
+
+    this.getAddress(position.coords.latitude, position.coords.longitude);
   }
 
   handleResize(e) {
@@ -77,7 +102,10 @@ class Post extends Component {
               <Row>
                 <br />
                 <Col sm={0} md={2} />
-                <Col sm={12} md={8} >
+                <Col sm={12} md={8} className={s.centerText}>
+                  {this.state.address}
+                  <br />
+                  <br />
                   <FormGroup controlId="formControlsTextarea">
                     <FormControl
                       componentClass="textarea"

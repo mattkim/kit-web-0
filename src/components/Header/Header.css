@@ -25,6 +25,10 @@
   /*max-width: var(--max-content-width);*/
 }
 
+.strongText {
+  font-weight: bold;
+}
+
 .leftHeader {
   font-size: 20px;
   text-align: left;
