@@ -49,6 +49,7 @@ class Feed extends Component {
     this.getFeed();
     this.handleResize(null);
     window.addEventListener('resize', this.handleResize);
+    // TODO: add error message if this fails.
     navigator.geolocation.getCurrentPosition(this.handleLocation);
   }
 
@@ -251,6 +252,7 @@ class Feed extends Component {
             <Row className={s.centerText}>
               <br />
               {this.state.address ? this.state.address : 'Finding current location...'}
+              <br />
               <br />
             </Row>
             {this.isMobile() ?
