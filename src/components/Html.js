@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { analytics } from '../config';
 
-function Html({ title, description, style, script, children }) {
+function Html({ title, description, style, script, children, lang, state }) {
   return (
-    <html className="no-js" lang="">
+    <html className="no-js" lang={lang}>
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
@@ -17,7 +17,13 @@ function Html({ title, description, style, script, children }) {
       </head>
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
-        {script && <script src={script} />}
+        {script && (
+          <script
+            id="source"
+            src={script}
+            data-initial-state={JSON.stringify(state)}
+          />
+        )}
         {analytics.google.trackingId &&
           <script
             dangerouslySetInnerHTML={{ __html:
@@ -39,6 +45,8 @@ Html.propTypes = {
   style: PropTypes.string.isRequired,
   script: PropTypes.string,
   children: PropTypes.string,
+  state: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 export default Html;

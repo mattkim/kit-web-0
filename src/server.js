@@ -8,9 +8,11 @@
  */
 
 import 'babel-polyfill';
+import './serverIntlPolyfill';
 import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import requestLanguage from 'express-request-language';
 import bodyParser from 'body-parser';
 import expressJwt from 'express-jwt';
 import expressGraphQL from 'express-graphql';
@@ -27,9 +29,11 @@ import models from './data/models';
 import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
-import { port, auth } from './config';
-import https from 'https';
-import http from 'http';
+import configureStore from './store/configureStore';
+import { setRuntimeVariable } from './actions/runtime';
+import Provide from './components/Provide';
+import { setLocale } from './actions/intl';
+import { port, auth, locales } from './config';
 
 const app = express();
 
@@ -45,6 +49,18 @@ global.navigator.userAgent = global.navigator.userAgent || 'all';
 // -----------------------------------------------------------------------------
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+app.use(requestLanguage({
+  languages: locales,
+  queryName: 'lang',
+  cookie: {
+    name: 'lang',
+    options: {
+      path: '/',
+      maxAge: 3650 * 24 * 3600 * 1000, // 10 years in miliseconds
+    },
+    url: '/lang/{language}',
+  },
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -88,12 +104,39 @@ app.get('*', async (req, res, next) => {
   try {
     let css = [];
     let statusCode = 200;
-    const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
+    const locale = req.language;
+    const data = {
+      lang: locale,
+      title: '',
+      description: '',
+      style: '',
+      script: assets.main.js,
+      children: '',
+    };
+
+    const store = configureStore({}, {
+      cookie: req.headers.cookie,
+    });
+
+    store.dispatch(setRuntimeVariable({
+      name: 'initialNow',
+      value: Date.now(),
+    }));
+
+    store.dispatch(setRuntimeVariable({
+      name: 'availableLocales',
+      value: locales,
+    }));
+
+    await store.dispatch(setLocale({
+      locale,
+    }));
 
     await UniversalRouter.resolve(routes, {
       path: req.path,
       query: req.query,
       context: {
+        store,
         insertCss: (...styles) => {
           styles.forEach(style => css.push(style._getCss())); // eslint-disable-line no-underscore-dangle, max-len
         },
@@ -103,7 +146,21 @@ app.get('*', async (req, res, next) => {
       render(component, status = 200) {
         css = [];
         statusCode = status;
-        data.children = ReactDOM.renderToString(component);
+
+        // Fire all componentWill... hooks
+        data.children = ReactDOM.renderToString(<Provide store={store}>{component}</Provide>);
+
+        // If you have async actions, wait for store when stabilizes here.
+        // This may be asynchronous loop if you have complicated structure.
+        // Then render again
+
+        // If store has no changes, you do not need render again!
+        // data.children = ReactDOM.renderToString(<Provide store={store}>{component}</Provide>);
+
+        // It is important to have rendered output and state in sync,
+        // otherwise React will write error to console when mounting on client
+        data.state = store.getState();
+
         data.style = css.join('');
         return true;
       },
