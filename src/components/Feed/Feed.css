@@ -23,6 +23,11 @@
   text-align: center;
 }
 
+.iconStyle {
+  color: red;
+  font-size: 20px;
+}
+
 .profileImgCol {
   text-align: center;
 }
@@ -67,4 +72,9 @@
 .spacer {
   padding-right: 10px;
   padding-left: 10px;
+}
+
+.spacerSm {
+  padding-right: 5px;
+  padding-left: 5px;
 }

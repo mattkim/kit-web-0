@@ -12,6 +12,7 @@ import ReactDOM from 'react-dom';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import history from '../../core/history';
 import s from './Post.css';
+import { createSingleFeed } from '../../lib/feedutils';
 import {
   Grid,
   Row,
@@ -63,12 +64,14 @@ class Post extends Component {
     const url = `${this.props.apiUrl}/postfeed`;
     const message = this.state.textAreaValue;
     const pokemon = this.state.selectValue;
+    const lat = this.props.lat;
+    const long = this.props.long;
     const address = this.props.address;
     const data = {
       message,
       pokemon,
-      lat: this.props.lat,
-      long: this.props.long,
+      lat,
+      long,
       address,
     };
 
@@ -88,25 +91,10 @@ class Post extends Component {
 
     console.log(result);
 
-    // TODO: create logic for creating a new singleFeed.
     this.props.addFeed({
-      singleFeed: {
-        created_at_date: '2016-07-17T20:34:58.651387237Z',
-        created_by_user_uuid: 'b89d86f1-5502-4f17-8e68-6945206f2b3c',
-        deleted_at_date: '2016-07-31T00:04:43.30072252-07:00',
-        formatted_address: address,
-        lat: 37.7752315,
-        long: -122.4197165,
-        message,
-        pokemon,
-        pokemon_image_url: 'http://static.giantbomb.com/uploads/scale_small/0/6087/2438704-1202149925_t.png',
-        updated_at_date: '2016-07-31T00:04:43.300722494-07:00',
-        username: 'ilovepokemon23',
-        uuid: 'a551ebe9-8b11-466f-ad25-797073b05b8b',
-      },
+      singleFeed: createSingleFeed(message, pokemon, lat, long, address),
     });
 
-    // TODO: Also add post to top of feed before this.
     history.push('/');
   }
 

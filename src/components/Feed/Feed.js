@@ -11,6 +11,7 @@ import React, { Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Feed.css';
 import { getDateDiff } from '../../lib/dateutils';
+import MdLocationOn from 'react-icons/lib/md/location-on';
 import {
   Grid,
   ListGroup,
@@ -120,6 +121,22 @@ class Feed extends Component {
     ]);
   }
 
+  addressMessage() {
+    if (this.props.address) {
+      return (
+        <span>
+          <MdLocationOn className={s.iconStyle} />
+          <span className={s.spacerSm} />
+          {this.props.address}
+        </span>
+      );
+    }
+
+    return (
+      'Finding current location...'
+    );
+  }
+
   render() {
     return (
       <div className={s.root}>
@@ -127,7 +144,7 @@ class Feed extends Component {
           <Grid>
             <Row className={s.centerText}>
               <br />
-              {this.props.address ? this.props.address : 'Finding current location...'}
+              {this.addressMessage()}
               <br />
               <br />
             </Row>

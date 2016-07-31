@@ -40,4 +40,10 @@ function getTimeStr(date) {
   `${getTimeWithPrefix(date.getSeconds())}`;
 }
 
-export { getDateDiff, getTimeStr };
+function getNowISOStr() {
+  const date = new Date();
+  date.setTime(Date.now());
+  return date.toISOString();
+}
+
+export { getDateDiff, getTimeStr, getNowISOStr };
