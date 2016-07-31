@@ -11,8 +11,6 @@ import React, { Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Navigation from '../Navigation';
-import logoUrl from './logo-small.png';
-import cx from 'classnames';
 import {
   Grid,
   Row,
@@ -20,32 +18,11 @@ import {
 } from 'react-bootstrap';
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { windowWidth: null };
-    this.handleResize = this.handleResize.bind(this);
-  }
-
-  componentDidMount() {
-    this.handleResize(null);
-    window.addEventListener('resize', this.handleResize);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-
-  handleResize(e) {
-    this.setState({ windowWidth: window.innerWidth });
-  }
-
-  isMobile() {
-    if (this.state.windowWidth === null) {
-      return true;
-    }
-
-    return this.state.windowWidth < 480;
-  }
+  static propTypes = {
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
+    isMobile: React.PropTypes.bool,
+  };
 
   largeHeader() {
     return (
@@ -73,7 +50,7 @@ class Header extends Component {
       <div className={s.root}>
         <div className={s.container}>
           <Grid>
-            {this.isMobile() ? this.smallHeader() : this.largeHeader()}
+            {this.props.isMobile ? this.smallHeader() : this.largeHeader()}
           </Grid>
         </div>
       </div>

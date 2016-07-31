@@ -9,7 +9,6 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import fetch from '../../core/fetch';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Post.css';
 import {

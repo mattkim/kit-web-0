@@ -9,7 +9,6 @@
 
 /* eslint-disable max-len */
 export const apiUrl = process.env.API_URL || 'http://localhost:8888';
-// export const apiUrl = 'https://pokefeed-api.herokuapp.com';
 export const port = process.env.PORT || 3000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 
