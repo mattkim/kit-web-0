@@ -122,9 +122,7 @@ app.get('*', async (req, res, next) => {
       children: '',
     };
 
-    const store = configureStore({
-      apiUrl,
-    }, {
+    const store = configureStore({}, {
       cookie: req.headers.cookie,
     });
 
