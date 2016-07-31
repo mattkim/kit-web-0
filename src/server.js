@@ -35,7 +35,7 @@ import Provide from './components/Provide';
 import { setLocale } from './actions/intl';
 import { setLocation } from './actions/location';
 import { setWindowSize } from './actions/window';
-import { port, auth, locales } from './config';
+import { port, auth, locales, apiUrl } from './config';
 
 const app = express();
 
@@ -117,7 +117,9 @@ app.get('*', async (req, res, next) => {
     };
 
     // TODO: store is initialized here?
-    const store = configureStore({}, {
+    const store = configureStore({
+      apiUrl,
+    }, {
       cookie: req.headers.cookie,
     });
 
@@ -129,6 +131,11 @@ app.get('*', async (req, res, next) => {
     store.dispatch(setRuntimeVariable({
       name: 'availableLocales',
       value: locales,
+    }));
+
+    store.dispatch(setRuntimeVariable({
+      name: 'apiUrl',
+      value: apiUrl,
     }));
 
     store.dispatch(setLocation({

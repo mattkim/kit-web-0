@@ -11,7 +11,6 @@ import React, { Component } from 'react';
 import fetch from '../../core/fetch';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Feed.css';
-import { apiUrl } from '../../config';
 import { getDateDiff } from '../../lib/dateutils';
 import {
   Grid,
@@ -29,6 +28,7 @@ class Feed extends Component {
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     isMobile: React.PropTypes.bool,
+    apiUrl: React.PropTypes.string,
   };
 
   constructor(props) {
@@ -43,9 +43,7 @@ class Feed extends Component {
   }
 
   async getFeed() {
-    console.log('**** process.env');
-    console.log(process.env);
-    const resp = await fetch(`${apiUrl}/getfeed`, {
+    const resp = await fetch(`${this.props.apiUrl}/getfeed`, {
       method: 'get',
       headers: {
         Accept: 'application/json',

@@ -9,6 +9,7 @@ function mapStateToProps(state) {
     width: state.window.width,
     height: state.window.height,
     isMobile: state.window.isMobile,
+    apiUrl: state.runtime.apiUrl,
   };
 }
 
