@@ -61,12 +61,15 @@ class Post extends Component {
   async handleSubmit(e) { // eslint-disable-line no-unused-vars
     // Validate that lat long exists before submitting.
     const url = `${this.props.apiUrl}/postfeed`;
+    const message = this.state.textAreaValue;
+    const pokemon = this.state.selectValue;
+    const address = this.props.address;
     const data = {
-      message: this.state.textAreaValue,
-      pokemon: this.state.selectValue,
+      message,
+      pokemon,
       lat: this.props.lat,
       long: this.props.long,
-      address: this.props.address,
+      address,
     };
 
     const response = await fetch(url, {
@@ -91,11 +94,11 @@ class Post extends Component {
         created_at_date: '2016-07-17T20:34:58.651387237Z',
         created_by_user_uuid: 'b89d86f1-5502-4f17-8e68-6945206f2b3c',
         deleted_at_date: '2016-07-31T00:04:43.30072252-07:00',
-        formatted_address: '11 Oak St, San Francisco, CA 94102, USA',
+        formatted_address: address,
         lat: 37.7752315,
         long: -122.4197165,
-        message: 'I just posted this yes.',
-        pokemon: 'Charmander',
+        message,
+        pokemon,
         pokemon_image_url: 'http://static.giantbomb.com/uploads/scale_small/0/6087/2438704-1202149925_t.png',
         updated_at_date: '2016-07-31T00:04:43.300722494-07:00',
         username: 'ilovepokemon23',
