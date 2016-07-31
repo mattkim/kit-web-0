@@ -13,6 +13,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import history from '../../core/history';
 import s from './Post.css';
 import { createSingleFeed } from '../../lib/feedutils';
+import AddressWrapper from '../Address/AddressWrapper';
 import {
   Grid,
   Row,
@@ -107,7 +108,7 @@ class Post extends Component {
               <br />
               <Col sm={0} md={2} />
               <Col sm={12} md={8} className={s.centerText}>
-                {this.props.address ? this.props.address : 'Finding current location...'}
+                <AddressWrapper />
                 <br />
                 <br />
                 <FormGroup controlId="formControlsTextarea">
