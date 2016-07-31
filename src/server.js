@@ -103,6 +103,11 @@ app.use('/graphql', expressGraphQL(req => ({
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
 app.get('*', async (req, res, next) => {
+  // TODO: only for prod do this?
+  if (req.header['x-forwarded-proto'] !== 'https') {
+    res.redirect('https://pokefeed-web.herokuapp.com');
+  }
+
   try {
     let css = [];
     let statusCode = 200;

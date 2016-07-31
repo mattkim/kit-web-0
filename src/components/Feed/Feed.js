@@ -149,8 +149,6 @@ class Feed extends Component {
   }
 
   render() {
-    // Style up the front-end
-    // I could calculate the container size on window resize.
     return (
       <div className={s.root}>
         <div className={s.container}>
