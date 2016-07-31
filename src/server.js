@@ -115,7 +115,7 @@ app.get('*', async (req, res, next) => {
     const locale = req.language;
     const data = {
       lang: locale,
-      title: '',
+      title: 'Pokefeed',
       description: '',
       style: '',
       script: assets.main.js,
