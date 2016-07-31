@@ -35,8 +35,12 @@ a:hover {
   color: #A2DB96;
 }
 
+a:focus {
+  color: #A2DB96;
+}
+
 a:active {
-  color: #085878;
+  color: #A2DB96;
 }
 
 /*

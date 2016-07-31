@@ -15,9 +15,10 @@ import Link from '../Link';
 import TiSocialInstagramCircular from 'react-icons/lib/ti/social-instagram-circular';
 import TiPencil from 'react-icons/lib/ti/pencil';
 import TiUser from 'react-icons/lib/ti/user';
-import MdEditLocation from 'react-icons/lib/md/edit-location';
+// import MdEditLocation from 'react-icons/lib/md/edit-location';
 
 function Navigation({ className }) {
+  // TODO: for some reason active state doesn't work unless double clicked.
   return (
     <div className={cx(s.root, className)} role="navigation">
       <Link to="/"><TiSocialInstagramCircular className={s.iconButton} /></Link>
