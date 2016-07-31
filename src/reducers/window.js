@@ -5,7 +5,7 @@ import {
   ISMOBILE,
 } from '../constants';
 
-export default function location(state = {}, action) {
+export default function window(state = {}, action) {
   switch (action.type) {
     case SET_WINDOW_SIZE:
       return {

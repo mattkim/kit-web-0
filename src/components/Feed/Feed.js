@@ -8,7 +8,6 @@
  */
 
 import React, { Component } from 'react';
-import fetch from '../../core/fetch';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Feed.css';
 import { getDateDiff } from '../../lib/dateutils';
@@ -28,35 +27,8 @@ class Feed extends Component {
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     isMobile: React.PropTypes.bool,
-    apiUrl: React.PropTypes.string,
+    feed: React.PropTypes.array,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      feed: [],
-    };
-  }
-
-  componentDidMount() {
-    this.getFeed();
-  }
-
-  async getFeed() {
-    const resp = await fetch(`${this.props.apiUrl}/getfeed`, {
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-    if (resp.status !== 200) throw new Error(resp.statusText);
-    // Weird but I have to await twice.
-    const data = await await resp.json();
-    if (!data) return undefined;
-    this.setState({ feed: data });
-    return data;
-  }
 
   pokevisionURL(lat, long) {
     // TODO: move to config
@@ -160,8 +132,8 @@ class Feed extends Component {
               <br />
             </Row>
             {this.props.isMobile ?
-              this.createCombinedGroupItems(this.state.feed) :
-              this.createGroupItems(this.state.feed)}
+              this.createCombinedGroupItems(this.props.feed) :
+              this.createGroupItems(this.props.feed)}
           </Grid>
         </div>
       </div>

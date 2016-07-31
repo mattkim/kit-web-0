@@ -35,6 +35,7 @@ import Provide from './components/Provide';
 import { setLocale } from './actions/intl';
 import { setLocation } from './actions/location';
 import { setWindowSize } from './actions/window';
+import { setFeed } from './actions/feed';
 import { port, auth, locales, apiUrl } from './config';
 
 const app = express();
@@ -121,13 +122,13 @@ app.get('*', async (req, res, next) => {
       children: '',
     };
 
-    // TODO: store is initialized here?
     const store = configureStore({
       apiUrl,
     }, {
       cookie: req.headers.cookie,
     });
 
+    // TODO: consolidate these into some store init lib.
     store.dispatch(setRuntimeVariable({
       name: 'initialNow',
       value: Date.now(),
@@ -155,6 +156,10 @@ app.get('*', async (req, res, next) => {
       isMobile: true,
     }));
 
+    store.dispatch(setFeed({
+      feed: [],
+    }));
+
     await store.dispatch(setLocale({
       locale,
     }));
@@ -175,7 +180,6 @@ app.get('*', async (req, res, next) => {
         statusCode = status;
 
         // Fire all componentWill... hooks
-        // TODO: interesting looks like provide is already wrapped here.
         data.children = ReactDOM.renderToString(<Provide store={store}>{component}</Provide>);
 
         // If you have async actions, wait for store when stabilizes here.
@@ -236,7 +240,4 @@ models.sync().catch(err => console.error(err.stack)).then(() => {
   });
 });
 
-// https(app).listen(port, () => {
-//   console.log(`The server is running at https://localhost:${port}/`);
-// });
 /* eslint-enable no-console */

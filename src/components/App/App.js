@@ -13,6 +13,7 @@ import s from './App.css';
 import HeaderWrapper from '../Header/HeaderWrapper';
 import SetLocation from './SetLocation';
 import SetWindowSize from './SetWindowSize';
+import SetFeed from './SetFeed';
 
 class App extends Component {
 
@@ -60,6 +61,7 @@ class App extends Component {
         <HeaderWrapper />
         <SetWindowSize />
         <SetLocation />
+        <SetFeed />
         {this.props.children}
       </div>
     );
