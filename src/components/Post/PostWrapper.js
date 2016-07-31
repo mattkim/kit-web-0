@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Post from './Post';
+import { addFeed } from '../../actions/feed';
 
 function mapStateToProps(state) {
   return {
@@ -9,11 +10,21 @@ function mapStateToProps(state) {
     width: state.window.width,
     height: state.window.height,
     isMobile: state.window.isMobile,
+    apiUrl: state.runtime.apiUrl,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addFeed: (singleFeed) => {
+      dispatch(addFeed(singleFeed));
+    },
   };
 }
 
 const PostWrapper = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Post);
 
 export default PostWrapper;

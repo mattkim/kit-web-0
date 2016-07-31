@@ -56,6 +56,9 @@ class App extends Component {
       return this.props.children;
     }
 
+    // TODO: we can wait here until location exists.
+    // and display nothing in the mean time.
+
     return (
       <div>
         <HeaderWrapper />
