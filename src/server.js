@@ -104,9 +104,12 @@ app.use('/graphql', expressGraphQL(req => ({
 // -----------------------------------------------------------------------------
 app.get('*', async (req, res, next) => {
   // TODO: only for prod do this?
-  if (req.header['x-forwarded-proto'] !== 'https') {
-    res.redirect('https://pokefeed-web.herokuapp.com');
-  }
+  console.log('before');
+  console.log(req);
+
+  // if (req.url !== 'localhost' && req.header['x-forwarded-proto'] !== 'https') {
+  //   res.redirect('https://pokefeed-web.herokuapp.com');
+  // }
 
   try {
     let css = [];
