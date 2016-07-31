@@ -85,6 +85,7 @@ class Post extends Component {
                 <Button bsStyle="success" className={s.buttonStyle}>
                   Submit
                 </Button>
+                <br />
               </Row>
             </Grid>
           </form>

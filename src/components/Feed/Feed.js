@@ -13,7 +13,6 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Feed.css';
 import { apiUrl } from '../../config';
 import { getDateDiff } from '../../lib/dateutils';
-
 import {
   Grid,
   ListGroup,
@@ -44,6 +43,8 @@ class Feed extends Component {
   }
 
   async getFeed() {
+    console.log('**** process.env');
+    console.log(process.env);
     const resp = await fetch(`${apiUrl}/getfeed`, {
       method: 'get',
       headers: {
