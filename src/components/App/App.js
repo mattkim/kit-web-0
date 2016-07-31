@@ -11,6 +11,8 @@ import React, { Component, PropTypes } from 'react';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import s from './App.css';
 import Header from '../Header';
+import SetLocation from './SetLocation';
+import SetWindowSize from './SetWindowSize';
 
 class App extends Component {
 
@@ -56,6 +58,8 @@ class App extends Component {
     return (
       <div>
         <Header />
+        <SetWindowSize />
+        <SetLocation />
         {this.props.children}
       </div>
     );

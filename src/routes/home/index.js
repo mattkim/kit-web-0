@@ -8,14 +8,15 @@
  */
 
 import React from 'react';
-import Feed from '../../components/Feed';
+// import Feed from '../../components/Feed';
+import FeedWrapper from '../../components/Feed/FeedWrapper';
 
 export default {
 
   path: '/',
 
   async action() {
-    return <Feed />;
+    return <FeedWrapper />;
   },
 
 };

@@ -9,7 +9,6 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Link from '../Link';
 import fetch from '../../core/fetch';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Post.css';
@@ -17,78 +16,24 @@ import {
   Grid,
   Row,
   Col,
-  Checkbox,
-  Radio,
   FormGroup,
-  ControlLabel,
   FormControl,
   Button,
-  HelpBlock,
-  ListGroup,
-  ListGroupItem,
-  Panel,
 } from 'react-bootstrap';
 
 
 class Post extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      windowWidth: null,
-      windowHeight: null,
-      currentLocation: 130,
-      lat: 37.7786255,
-      long: -122.4295503,
-      address: null,
-    };
-    this.handleResize = this.handleResize.bind(this);
-    this.handleLocation = this.handleLocation.bind(this);
-  }
+  static propTypes = {
+    lat: React.PropTypes.number,
+    long: React.PropTypes.number,
+    address: React.PropTypes.string,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
+    isMobile: React.PropTypes.bool,
+  };
 
   componentDidMount() {
     ReactDOM.findDOMNode(this.refs.nameInput).focus();
-    this.handleResize(null);
-    window.addEventListener('resize', this.handleResize);
-    navigator.geolocation.getCurrentPosition(this.handleLocation);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-
-  async getAddress(lat, long) {
-    const adr = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&sensor=true`;
-    const resp = await fetch(adr);
-    if (resp.status !== 200) throw new Error(resp.statusText);
-    const data = await await resp.json();
-    if (!data) return undefined;
-    this.setState({ address: data.results[0].formatted_address });
-    return data;
-  }
-
-  handleLocation(position) {
-    // Set this globally
-    this.setState({
-      lat: position.coords.latitude,
-      long: position.coords.longitude,
-    });
-
-    this.getAddress(position.coords.latitude, position.coords.longitude);
-  }
-
-  handleResize(e) {
-    this.setState({
-      windowWidth: window.innerWidth,
-      windowHeight: window.innerHeight,
-    });
-  }
-
-  isMobile() {
-    if (this.state.windowWidth === null) {
-      return true;
-    }
-
-    return this.state.windowWidth < 480;
   }
 
   render() {
@@ -103,7 +48,7 @@ class Post extends Component {
                 <br />
                 <Col sm={0} md={2} />
                 <Col sm={12} md={8} className={s.centerText}>
-                  {this.state.address ? this.state.address : 'Finding current location...'}
+                  {this.props.address ? this.props.address : 'Finding current location...'}
                   <br />
                   <br />
                   <FormGroup controlId="formControlsTextarea">
@@ -112,7 +57,7 @@ class Post extends Component {
                       placeholder="Share the moment"
                       ref="nameInput"
                       className={s.textAreaStyle}
-                      style={{ height: this.state.windowHeight * 0.25 }}
+                      style={{ height: this.props.height * 0.25 }}
                       autofocus
                     />
                   </FormGroup>

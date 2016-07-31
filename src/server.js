@@ -33,6 +33,8 @@ import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import Provide from './components/Provide';
 import { setLocale } from './actions/intl';
+import { setLocation } from './actions/location';
+import { setWindowSize } from './actions/window';
 import { port, auth, locales } from './config';
 
 const app = express();
@@ -114,6 +116,7 @@ app.get('*', async (req, res, next) => {
       children: '',
     };
 
+    // TODO: store is initialized here?
     const store = configureStore({}, {
       cookie: req.headers.cookie,
     });
@@ -126,6 +129,18 @@ app.get('*', async (req, res, next) => {
     store.dispatch(setRuntimeVariable({
       name: 'availableLocales',
       value: locales,
+    }));
+
+    store.dispatch(setLocation({
+      lat: 37.7786255,
+      long: -122.4295503,
+      address: null,
+    }));
+
+    store.dispatch(setWindowSize({
+      width: 480,
+      height: 800,
+      isMobile: true,
     }));
 
     await store.dispatch(setLocale({
@@ -148,6 +163,7 @@ app.get('*', async (req, res, next) => {
         statusCode = status;
 
         // Fire all componentWill... hooks
+        // TODO: interesting looks like provide is already wrapped here.
         data.children = ReactDOM.renderToString(<Provide store={store}>{component}</Provide>);
 
         // If you have async actions, wait for store when stabilizes here.

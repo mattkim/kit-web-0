@@ -8,14 +8,14 @@
  */
 
 import React from 'react';
-import Post from '../../components/Post';
+import PostWrapper from '../../components/Post/PostWrapper';
 
 export default {
 
   path: '/post',
 
   action() {
-    return <Post />;
+    return <PostWrapper />;
   },
 
 };
