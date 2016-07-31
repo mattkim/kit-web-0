@@ -66,6 +66,7 @@ class Post extends Component {
       pokemon: this.state.selectValue,
       lat: this.props.lat,
       long: this.props.long,
+      address: this.props.address,
     };
 
     const response = await fetch(url, {
