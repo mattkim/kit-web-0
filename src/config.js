@@ -8,6 +8,11 @@
  */
 
 /* eslint-disable max-len */
+import dotenv from 'dotenv';
+
+// Load potential configs from .env file.
+dotenv.load();
+
 export const apiUrl = process.env.API_URL || 'http://localhost:8888';
 export const port = process.env.PORT || 3000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;

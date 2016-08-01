@@ -4,6 +4,7 @@ export const SET_LOCALE_SUCCESS = 'SET_LOCALE_SUCCESS';
 export const SET_LOCALE_ERROR = 'SET_LOCALE_ERROR';
 export const SET_LOCATION = 'SET_LOCATION';
 export const SET_WINDOW_SIZE = 'SET_WINDOW_SIZE';
+export const SET_USER = 'SET_USER';
 export const SET_FEED = 'SET_FEED';
 export const ADD_FEED = 'ADD_FEED';
 
@@ -16,3 +17,5 @@ export const HEIGHT = 'height';
 export const ISMOBILE = 'isMobile';
 
 export const FEED = 'feed';
+
+export const USER = 'user';

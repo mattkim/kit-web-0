@@ -4,6 +4,7 @@ import intl from './intl';
 import location from './location';
 import window from './window';
 import feed from './feed';
+import user from './user';
 
 export default combineReducers({
   runtime,
@@ -11,4 +12,5 @@ export default combineReducers({
   location,
   window,
   feed,
+  user,
 });

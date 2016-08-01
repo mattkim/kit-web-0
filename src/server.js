@@ -70,6 +70,7 @@ app.use(bodyParser.json());
 //
 // Authentication
 // -----------------------------------------------------------------------------
+// TODO: I think this is how I set and retrieve users from the cookie / session
 app.use(expressJwt({
   secret: auth.jwt.secret,
   credentialsRequired: false,
@@ -80,8 +81,26 @@ app.use(passport.initialize());
 app.get('/login/facebook',
   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
 );
+
+// TODO: this stupidly doesn't work on dev because node is proxying to port 3001
+// but facebook wants to redirect us to port 3000
 app.get('/login/facebook/return',
   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+  (req, res) => {
+    const expiresIn = 60 * 60 * 24 * 180; // 180 days
+    const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
+    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+    res.redirect('/');
+  }
+);
+
+// TODO: this is even dumber because the bootstrapper didn't implement google oauth
+app.get('/login/google',
+  passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' })
+);
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
     const expiresIn = 60 * 60 * 24 * 180; // 180 days
     const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });

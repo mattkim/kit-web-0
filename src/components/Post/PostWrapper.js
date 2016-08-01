@@ -11,6 +11,7 @@ function mapStateToProps(state) {
     height: state.window.height,
     isMobile: state.window.isMobile,
     apiUrl: state.runtime.apiUrl,
+    user: state.user.user,
   };
 }
 

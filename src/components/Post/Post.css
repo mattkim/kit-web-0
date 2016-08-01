@@ -30,10 +30,6 @@ button:focus {
   font-size: 1em;
 }
 
-.buttonStyle {
-  border-radius: 50px;
-}
-
 .selectStyle {
   border: 1px solid #efefef;
 }

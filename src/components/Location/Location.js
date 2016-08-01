@@ -8,8 +8,6 @@
  */
 
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Link from '../Link';
 import fetch from '../../core/fetch';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Location.css';
@@ -18,20 +16,11 @@ import {
   Grid,
   Row,
   Col,
-  Checkbox,
-  Radio,
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  Button,
-  HelpBlock,
-  ListGroup,
-  ListGroupItem,
-  Panel,
 } from 'react-bootstrap';
 
 
 class Location extends Component {
+  // TODO: Note we're not using it but it has some examples of stuff.
   constructor(props) {
     super(props);
     this.state = {

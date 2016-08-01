@@ -34,6 +34,7 @@ class Post extends Component {
     isMobile: React.PropTypes.bool,
     apiUrl: React.PropTypes.string,
     addFeed: React.PropTypes.func,
+    user: React.PropTypes.object,
   };
 
   constructor(props) {
@@ -62,13 +63,18 @@ class Post extends Component {
 
   async handleSubmit(e) { // eslint-disable-line no-unused-vars
     // Validate that lat long exists before submitting.
+    // TODO: move this into node js backend.
     const url = `${this.props.apiUrl}/postfeed`;
     const message = this.state.textAreaValue;
     const pokemon = this.state.selectValue;
     const lat = this.props.lat;
     const long = this.props.long;
     const address = this.props.address;
+    const username = this.props.user.Username;
+    const userID = this.props.user.ID;
     const data = {
+      created_by_user_id: userID,
+      username,
       message,
       pokemon,
       lat,
@@ -93,7 +99,7 @@ class Post extends Component {
     console.log(result);
 
     this.props.addFeed({
-      singleFeed: createSingleFeed(message, pokemon, lat, long, address),
+      singleFeed: createSingleFeed(userID, username, message, pokemon, lat, long, address),
     });
 
     history.push('/');

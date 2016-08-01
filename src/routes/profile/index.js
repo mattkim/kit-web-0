@@ -8,14 +8,14 @@
  */
 
 import React from 'react';
-import Profile from './Profile';
+import ProfileWrapper from '../../components/Profile/ProfileWrapper';
 
 export default {
 
   path: '/profile',
 
   action() {
-    return <Profile />;
+    return <ProfileWrapper />;
   },
 
 };
