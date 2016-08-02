@@ -33,6 +33,7 @@ class Register extends Component {
       usernameValue: null,
       passwordValue: null,
       passwordAgainValue: null,
+      errorMessage: null,
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -59,8 +60,9 @@ class Register extends Component {
   }
 
   async handleSubmit(e) { // eslint-disable-line no-unused-vars
-    // TODO: move this into node js backend.
-    const url = `${this.props.apiUrl}/signup`;
+    // Clear the error message
+    this.setState({ errorMessage: null });
+
     const data = {
       email: this.state.emailValue,
       username: this.state.usernameValue,
@@ -68,7 +70,23 @@ class Register extends Component {
       password_again: this.state.passwordAgainValue,
     };
 
-    console.log(data);
+    // Validate the form data
+    if (!data.email) {
+      this.setState({ errorMessage: '* Email required' });
+      return;
+    } else if (!data.username) {
+      this.setState({ errorMessage: '* Username required' });
+      return;
+    } else if (!data.password) {
+      this.setState({ errorMessage: '* Password required' });
+      return;
+    } else if (!data.password_again) {
+      this.setState({ errorMessage: '* Retyped password required' });
+      return;
+    }
+
+    // TODO: move this into node js backend.
+    const url = `${this.props.apiUrl}/signup`;
 
     const response = await fetch(url, {
       method: 'POST',
@@ -78,22 +96,25 @@ class Register extends Component {
       },
     });
 
-    console.log(response);
-
+    // Handle error use cases.
     if (response.status !== 200) {
+      const body = await await response.json();
+
+      if (body.Code === '23505') {
+        // Guess that this unique constraint error always means account exists
+        this.setState({ errorMessage: '* Account already exists' });
+        return;
+      } else if (body.Error) {
+        this.setState({ errorMessage: `* ${body.Error}` });
+        return;
+      }
+
       throw new Error(response.statusText);
     }
 
-    // TODO: this can fail too...
+    // TODO: set user on session / cookie
     const user = await await response.json();
-
-    // TODO: if we get here, we assume this user was created
-    // Need to set user onto the session/cookie.
-    // We could also set this on the redux.
-    console.log(user);
-
     this.props.setUser({ user });
-
     history.push('/');
   }
 
@@ -105,7 +126,7 @@ class Register extends Component {
           <br />
           <small>Keep up with the latest pokemon go news.</small>
         </PageHeader>
-        <br />
+        <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
         <Form horizontal>
           <FormGroup controlId="formHorizontalEmail">
             <FormControl

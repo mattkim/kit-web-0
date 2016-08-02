@@ -30,6 +30,7 @@ class Login extends Component {
     this.state = {
       emailValue: null,
       passwordValue: null,
+      errorMessage: null,
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -46,14 +47,25 @@ class Login extends Component {
   }
 
   async handleSubmit(e) { // eslint-disable-line no-unused-vars
-    // TODO: move this into node js backend.
-    const url = `${this.props.apiUrl}/login`;
+    // Clear the error message
+    this.setState({ errorMessage: null });
+
     const data = {
       email: this.state.emailValue,
       password: this.state.passwordValue,
     };
 
-    console.log(data);
+    // Validate the form data
+    if (!data.email) {
+      this.setState({ errorMessage: '* Email required' });
+      return;
+    } else if (!data.password) {
+      this.setState({ errorMessage: '* Password required' });
+      return;
+    }
+
+    // TODO: move this into node js backend.
+    const url = `${this.props.apiUrl}/login`;
 
     const response = await fetch(url, {
       method: 'POST',
@@ -63,24 +75,32 @@ class Login extends Component {
       },
     });
 
-    console.log(response);
-
+    // Handle error use cases.
     if (response.status !== 200) {
+      const body = await await response.json();
+
+      if (response.status === 400) {
+        this.setState({ errorMessage: '* Failed to login with username and password.' });
+        return;
+      } else if (body.Error) {
+        this.setState({ errorMessage: `* ${body.Error}` });
+        return;
+      }
+
+      // Give up and just throw an error
       throw new Error(response.statusText);
     }
 
+    // TODO: set user on session / cookie
     const user = await await response.json();
-
-    console.log(user);
-
     this.props.setUser({ user });
-
     history.push('/');
   }
 
   render() {
     return (
       <div>
+        <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
         <Form horizontal>
           <br />
           <FormGroup controlId="formHorizontalEmail">
