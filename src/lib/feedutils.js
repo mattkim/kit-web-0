@@ -1,15 +1,16 @@
 import { getNowISOStr } from './dateutils';
 
-function createSingleFeed(userID, username, message, pokemon, lat, long, address) {
+function createSingleFeed(userID, username, message, pokemon, lat, long, geocodes, displayType) {
   const now = getNowISOStr();
   return {
     created_at_date: now,
     created_by_user_uuid: null, // TODO: need to pass in the user.
     created_by_user_id: userID,
     deleted_at_date: null,
-    formatted_address: address,
     lat,
     long,
+    geocodes,
+    displayType,
     message,
     pokemon,
     // TODO: need to fetch image url from global map.

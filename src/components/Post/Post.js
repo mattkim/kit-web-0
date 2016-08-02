@@ -16,6 +16,7 @@ import { createSingleFeed } from '../../lib/feedutils';
 import AddressWrapper from '../Address/AddressWrapper';
 import {
   Grid,
+  Checkbox,
   Row,
   Col,
   FormGroup,
@@ -28,7 +29,7 @@ class Post extends Component {
   static propTypes = {
     lat: React.PropTypes.number,
     long: React.PropTypes.number,
-    address: React.PropTypes.string,
+    geocodes: React.PropTypes.array,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     isMobile: React.PropTypes.bool,
@@ -42,10 +43,12 @@ class Post extends Component {
     this.state = {
       textAreaValue: null,
       selectValue: 'bulbasaur', // It's the default selector
+      checkboxValue: false,
     };
 
     this.handleTextAreaChange = this.handleTextAreaChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -55,6 +58,10 @@ class Post extends Component {
 
   handleTextAreaChange(e) {
     this.setState({ textAreaValue: e.target.value });
+  }
+
+  handleCheckboxChange(e) { // eslint-disable-line no-unused-vars
+    this.setState({ checkboxValue: !this.state.checkboxValue });
   }
 
   handleSelectChange(e) {
@@ -67,19 +74,21 @@ class Post extends Component {
     const url = `${this.props.apiUrl}/postfeed`;
     const message = this.state.textAreaValue;
     const pokemon = this.state.selectValue;
+    const displayType = this.state.checkboxValue ? null : 'postal_code';
     const lat = this.props.lat;
     const long = this.props.long;
-    const address = this.props.address;
+    const geocodes = this.props.geocodes;
     const username = this.props.user.Username;
-    const userID = this.props.user.ID;
+    const createdByUserID = this.props.user.ID; // TODO: needs to be migrated to uuid.
     const data = {
-      created_by_user_id: userID,
+      createdByUserID,
       username,
       message,
       pokemon,
       lat,
       long,
-      address,
+      geocodes,
+      displayType,
     };
 
     const response = await fetch(url, {
@@ -94,12 +103,17 @@ class Post extends Component {
       throw new Error(response.statusText);
     }
 
-    const result = await await response.json();
-
-    console.log(result);
-
     this.props.addFeed({
-      singleFeed: createSingleFeed(userID, username, message, pokemon, lat, long, address),
+      singleFeed: createSingleFeed(
+        createdByUserID,
+        username,
+        message,
+        pokemon,
+        lat,
+        long,
+        geocodes,
+        displayType,
+      ),
     });
 
     history.push('/');
@@ -146,6 +160,15 @@ class Post extends Component {
                     <option value="squirtle">Squirtle</option>
                   </FormControl>
                 </FormGroup>
+              </Col>
+              <Col sm={0} md={2} />
+            </Row>
+            <Row>
+              <Col sm={0} md={2} />
+              <Col sm={12} md={8}>
+                <Checkbox onChange={this.handleCheckboxChange} className={s.formCheckboxRow}>
+                  Share exact location
+                </Checkbox>
               </Col>
               <Col sm={0} md={2} />
             </Row>

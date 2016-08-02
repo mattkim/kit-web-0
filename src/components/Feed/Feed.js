@@ -9,6 +9,7 @@
 
 import React, { Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { getFormattedAddressByType } from '../../lib/geolocation';
 import s from './Feed.css';
 import { getDateDiff } from '../../lib/dateutils';
 import AddressWrapper from '../Address/AddressWrapper';
@@ -24,7 +25,7 @@ class Feed extends Component {
   static propTypes = {
     lat: React.PropTypes.number,
     long: React.PropTypes.number,
-    address: React.PropTypes.string,
+    geocodes: React.PropTypes.array,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     isMobile: React.PropTypes.bool,
@@ -105,7 +106,7 @@ class Feed extends Component {
         {row.message}
       </ListGroupItem>,
       <ListGroupItem className={innerFeedClass}>
-        {row.formatted_address}
+        {getFormattedAddressByType(row.geocodes, row.displayType)}
       </ListGroupItem>,
       <ListGroupItem className={innerFeedClass}>
         <span className={s.strongText}>

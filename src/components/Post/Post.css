@@ -44,6 +44,11 @@ button:focus {
   box-shadow: none;
 }
 
+.formCheckboxRow {
+  color: #333;
+  text-align: center;
+}
+
 .formButtonsRow {
   border-top: 1px solid #efefef;
   text-align: center;

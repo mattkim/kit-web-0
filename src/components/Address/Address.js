@@ -9,6 +9,7 @@
 
 import React, { Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { getFormattedAddressDefault } from '../../lib/geolocation';
 import s from './Address.css';
 import MdLocationOn from 'react-icons/lib/md/location-on';
 
@@ -16,16 +17,16 @@ class Address extends Component {
   static propTypes = {
     lat: React.PropTypes.number,
     long: React.PropTypes.number,
-    address: React.PropTypes.string,
+    geocodes: React.PropTypes.array,
   };
 
   addressMessage() {
-    if (this.props.address) {
+    if (this.props.geocodes) {
       return (
         <span>
           <MdLocationOn className={s.iconStyle} />
           <span className={s.spacerSm} />
-          {this.props.address}
+          {getFormattedAddressDefault(this.props.geocodes)}
         </span>
       );
     }

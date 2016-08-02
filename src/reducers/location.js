@@ -1,8 +1,8 @@
 import {
   SET_LOCATION,
-  ADDRESS,
   LAT,
   LONG,
+  GEOCODES,
 } from '../constants';
 
 export default function location(state = {}, action) {
@@ -10,9 +10,9 @@ export default function location(state = {}, action) {
     case SET_LOCATION:
       return {
         ...state,
-        [ADDRESS]: action.payload.address,
         [LAT]: action.payload.lat,
         [LONG]: action.payload.long,
+        [GEOCODES]: action.payload.geocodes,
       };
     default:
       return state;

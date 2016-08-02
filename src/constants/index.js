@@ -11,6 +11,7 @@ export const ADD_FEED = 'ADD_FEED';
 export const LAT = 'lat';
 export const LONG = 'long';
 export const ADDRESS = 'address';
+export const GEOCODES = 'geocodes';
 
 export const WIDTH = 'width';
 export const HEIGHT = 'height';
