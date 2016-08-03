@@ -79,16 +79,16 @@ class Post extends Component {
     const long = this.props.long;
     const geocodes = this.props.geocodes;
     const username = this.props.user.Username;
-    const createdByUserID = this.props.user.ID; // TODO: needs to be migrated to uuid.
+    const createdByUserUUID = this.props.user.UUID; // TODO: convert to lowercase?
     const data = {
-      createdByUserID,
+      created_by_user_uuid: createdByUserUUID,
       username,
       message,
       pokemon,
       lat,
       long,
       geocodes,
-      displayType,
+      display_type: displayType,
     };
 
     const response = await fetch(url, {
@@ -105,7 +105,7 @@ class Post extends Component {
 
     this.props.addFeed({
       singleFeed: createSingleFeed(
-        createdByUserID,
+        createdByUserUUID,
         username,
         message,
         pokemon,

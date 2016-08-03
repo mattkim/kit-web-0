@@ -1,11 +1,10 @@
 import { getNowISOStr } from './dateutils';
 
-function createSingleFeed(userID, username, message, pokemon, lat, long, geocodes, displayType) {
+function createSingleFeed(userUUID, username, message, pokemon, lat, long, geocodes, displayType) {
   const now = getNowISOStr();
   return {
     created_at_date: now,
-    created_by_user_uuid: null, // TODO: need to pass in the user.
-    created_by_user_id: userID,
+    created_by_user_uuid: userUUID,
     deleted_at_date: null,
     lat,
     long,
