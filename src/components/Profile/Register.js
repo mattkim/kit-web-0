@@ -114,6 +114,7 @@ class Register extends Component {
 
     // TODO: set user on session / cookie
     const user = await await response.json();
+
     this.props.setUser({ user });
     history.push('/');
   }
