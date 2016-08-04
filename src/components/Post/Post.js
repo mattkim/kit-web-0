@@ -14,6 +14,7 @@ import history from '../../core/history';
 import s from './Post.css';
 import { createSingleFeed } from '../../lib/feedutils';
 import AddressWrapper from '../Address/AddressWrapper';
+import { getGeocodeByType } from '../../lib/geolocation';
 import {
   Grid,
   Checkbox,
@@ -77,9 +78,10 @@ class Post extends Component {
     const displayType = this.state.checkboxValue ? null : 'postal_code';
     const lat = this.props.lat;
     const long = this.props.long;
-    const geocodes = this.props.geocodes;
+    const geocodes = this.props.geocodes; // geocodes is a string?
     const username = this.props.user.Username;
     const createdByUserUUID = this.props.user.UUID; // TODO: convert to lowercase?
+
     const data = {
       created_by_user_uuid: createdByUserUUID,
       username,
@@ -103,16 +105,16 @@ class Post extends Component {
       throw new Error(response.statusText);
     }
 
+    const geocode = getGeocodeByType(geocodes, displayType);
+
     this.props.addFeed({
       singleFeed: createSingleFeed(
-        createdByUserUUID,
         username,
         message,
         pokemon,
-        lat,
-        long,
-        geocodes,
-        displayType,
+        geocode.lat,
+        geocode.long,
+        geocode.formattedAddress,
       ),
     });
 

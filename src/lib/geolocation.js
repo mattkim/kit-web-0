@@ -27,24 +27,31 @@ function getCurrentPosition(callback) {
   }
 }
 
-function getFormattedAddressByType(geocodes, type) {
+function getGeocodeByType(geocodes, type) {
   if (!geocodes) {
     return null;
   }
 
-  console.log(type);
-  console.log(geocodes);
-
   for (const g of geocodes) {
     for (const t of g.types) {
       if (t === type) {
-        return g.formatted_address;
+        return {
+          formattedAddress: g.formatted_address,
+          lat: g.geometry.location.lat,
+          long: g.geometry.location.lng,
+        };
       }
     }
   }
 
   // Default to the first one
-  return geocodes[0].formatted_address;
+  const g = geocodes[0];
+
+  return {
+    formattedAddress: g.formatted_address,
+    lat: g.geometry.location.lat,
+    long: g.geometry.location.lng,
+  };
 }
 
 function getFormattedAddressDefault(geocodes) {
@@ -56,4 +63,4 @@ function getFormattedAddressDefault(geocodes) {
   return geocodes[0].formatted_address;
 }
 
-export { getCurrentPosition as default, getFormattedAddressByType, getFormattedAddressDefault };
+export { getCurrentPosition as default, getGeocodeByType, getFormattedAddressDefault };

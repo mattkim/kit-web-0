@@ -95,7 +95,7 @@ class Feed extends Component {
               </Col>
               <Col xs={2} sm={2} md={2} lg={2} className={s.rightFeedHeader}>
                 <span className={s.strongText}>
-                  {getDateDiff(row.created_at_date)}
+                  {getDateDiff(row.created_at)}
                 </span>
               </Col>
             </Row>
@@ -106,7 +106,7 @@ class Feed extends Component {
         {row.message}
       </ListGroupItem>,
       <ListGroupItem className={innerFeedClass}>
-        {getFormattedAddressByType(row.geocodes, row.displayType)}
+        {row.formatted_address}
       </ListGroupItem>,
       <ListGroupItem className={innerFeedClass}>
         <span className={s.strongText}>

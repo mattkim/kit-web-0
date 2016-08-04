@@ -15,7 +15,7 @@ class SetFeed extends Component {
   }
 
   async getFeed(dispatch, apiUrl) {
-    const resp = await fetch(`${apiUrl}/getfeed`, {
+    const resp = await fetch(`${apiUrl}/latestfeeds`, {
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -26,6 +26,10 @@ class SetFeed extends Component {
     // Weird but I have to await twice.
     const data = await await resp.json();
     if (!data) return undefined;
+
+    console.log('***** latestfeeds result');
+    console.log(data);
+
     dispatch(setFeed({ feed: data }));
     return data;
   }
