@@ -79,7 +79,7 @@ class Post extends Component {
           onChange={this.handleSelectChange}
           className={s.selectStyle}
         >
-          <option>
+          <option value={'select'}>
             Select Pokemon
           </option>
           {pokemonOptions}
@@ -123,7 +123,7 @@ class Post extends Component {
       return;
     }
 
-    if (!pokemon) {
+    if (!pokemon || pokemon === 'select') {
       this.setState({ errorMessage: 'Please select a pokemon.' });
       return;
     }
