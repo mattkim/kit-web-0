@@ -14,6 +14,11 @@ import HeaderWrapper from '../Header/HeaderWrapper';
 import SetLocation from './SetLocation';
 import SetWindowSize from './SetWindowSize';
 import SetFeed from './SetFeed';
+import SetUser from './SetUser';
+import {
+  Grid,
+  Row,
+} from 'react-bootstrap';
 
 class App extends Component {
 
@@ -25,6 +30,8 @@ class App extends Component {
     }).isRequired,
     children: PropTypes.element.isRequired,
     error: PropTypes.object,
+    user: React.PropTypes.object,
+    getUserExecuted: React.PropTypes.bool,
   };
 
   static childContextTypes = {
@@ -56,16 +63,39 @@ class App extends Component {
       return this.props.children;
     }
 
-    // TODO: we can wait here until location exists.
-    // and display nothing in the mean time.
+    let result = null;
+
+    // TODO: make this look a little cleaner but it works now.
+    if (
+      !this.props.user &&
+      this.props.children.type.ComposedComponent.displayName !== 'Profile'
+    ) {
+      result = (
+        <div className={s.root}>
+          <div className={s.container}>
+            <Grid>
+              <Row className={s.centerText}>
+                <br />
+                <div>
+                  <span>{'Loading...'}</span>
+                </div>
+              </Row>
+            </Grid>
+          </div>
+        </div>
+      );
+    } else {
+      result = this.props.children;
+    }
 
     return (
       <div>
+        <SetUser componentDisplayName={this.props.children.type.ComposedComponent.displayName} />
         <HeaderWrapper />
         <SetWindowSize />
         <SetLocation />
         <SetFeed />
-        {this.props.children}
+        {result}
       </div>
     );
   }

@@ -9,6 +9,7 @@ export const SET_FEED = 'SET_FEED';
 export const ADD_FEED = 'ADD_FEED';
 export const SET_POKEMON_MAP = 'SET_POKEMON_MAP';
 export const SET_POKEMON_NAMES = 'SET_POKEMON_NAMES';
+export const SET_GET_USER_EXECUTED = 'SET_GET_USER_EXECUTED';
 
 export const LAT = 'lat';
 export const LONG = 'long';
@@ -22,6 +23,7 @@ export const ISMOBILE = 'isMobile';
 export const FEED = 'feed';
 
 export const USER = 'user';
+export const GET_USER_EXECUTED = 'getUserExecuted';
 
 export const POKEMON_MAP = 'pokemonMap';
 export const POKEMON_NAMES = 'pokemonNames';

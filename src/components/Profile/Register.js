@@ -116,6 +116,7 @@ class Register extends Component {
     const user = await await response.json();
 
     this.props.setUser({ user });
+    localStorage.setItem('user', JSON.stringify(user));
     history.push('/');
   }
 

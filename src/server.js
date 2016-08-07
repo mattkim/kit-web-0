@@ -37,6 +37,7 @@ import { setLocation } from './actions/location';
 import { setWindowSize } from './actions/window';
 import { setFeed } from './actions/feed';
 import { setPokemonMap, setPokemonNames } from './actions/pokemon';
+import { setGetUserExecuted } from './actions/user';
 import { port, auth, locales, apiUrl } from './config';
 
 const app = express();
@@ -72,8 +73,9 @@ app.use(bodyParser.json());
 // Authentication
 // -----------------------------------------------------------------------------
 // TODO: I think this is how I set and retrieve users from the cookie / session
+// TODO: do i need to do unless here?
 app.use(expressJwt({
-  secret: auth.jwt.secret,
+  secret: auth.jwt.secret, // TODO: this needs to be laoded from file
   credentialsRequired: false,
   getToken: req => req.cookies.id_token,
 }));
@@ -124,6 +126,7 @@ app.use('/graphql', expressGraphQL(req => ({
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
 app.get('*', async (req, res, next) => {
+  // Required to force all clients to https endpoint.
   if (!req.headers.host.includes('localhost') &&
     req.headers['x-forwarded-proto'] !== 'https') {
     res.redirect(`https://${req.headers.host}${req.url}`);
@@ -184,6 +187,10 @@ app.get('*', async (req, res, next) => {
 
     store.dispatch(setPokemonNames({
       pokemonNames: [],
+    }));
+
+    store.dispatch(setGetUserExecuted({
+      getUserExecuted: false,
     }));
 
     await store.dispatch(setLocale({

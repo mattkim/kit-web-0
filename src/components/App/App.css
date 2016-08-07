@@ -43,6 +43,10 @@ a:active {
   color: #A2DB96;
 }
 
+.centerText {
+  text-align: center;
+}
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301

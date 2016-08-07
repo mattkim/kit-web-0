@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import App from '../components/App';
+import AppWrapper from '../components/App/AppWrapper';
 
 // Child routes
 import home from './home';
@@ -31,7 +31,7 @@ export default {
     const component = await next();
     if (component === undefined) return component;
     return render(
-      <App context={context}>{component}</App>
+      <AppWrapper context={context}>{component}</AppWrapper>
     );
   },
 

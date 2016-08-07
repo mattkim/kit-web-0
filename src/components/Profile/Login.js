@@ -94,6 +94,8 @@ class Login extends Component {
     // TODO: set user on session / cookie
     const user = await await response.json();
     this.props.setUser({ user });
+    // TODO: JSON.stringify?
+    localStorage.setItem('user', JSON.stringify(user));
     history.push('/');
   }
 
