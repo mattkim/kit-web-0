@@ -9,7 +9,7 @@
 
 import React, { Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { getFormattedAddressByType } from '../../lib/geolocation';
+import TiMap from 'react-icons/lib/ti/map';
 import s from './Feed.css';
 import { getDateDiff } from '../../lib/dateutils';
 import AddressWrapper from '../Address/AddressWrapper';
@@ -85,13 +85,17 @@ class Feed extends Component {
       <ListGroupItem className={innerFeedClass}>
         <Row>
           <Col xs={2} sm={2} md={2} lg={2}>
-            <img alt={row.pokemon} className={s.profileImg} src={row.pokemon_image_url} />
+            <img
+              alt={row.pokemon_display_name}
+              className={s.profileImg}
+              src={row.pokemon_image_url}
+            />
           </Col>
           <Col xs={10} sm={10} md={10} lg={10} className={s.feedText}>
             <Row>
               <Col xs={10} sm={10} md={10} lg={10}>
                 <span className={s.strongText}>{row.username} </span>
-                spotted a <span className={s.strongText}>{row.pokemon}</span>
+                spotted <span className={s.strongText}>{row.pokemon_display_name}</span>
               </Col>
               <Col xs={2} sm={2} md={2} lg={2} className={s.rightFeedHeader}>
                 <span className={s.strongText}>
@@ -106,18 +110,11 @@ class Feed extends Component {
         {row.message}
       </ListGroupItem>,
       <ListGroupItem className={innerFeedClass}>
-        {row.formatted_address}
-      </ListGroupItem>,
-      <ListGroupItem className={innerFeedClass}>
-        <span className={s.strongText}>
-          <a href={this.pokevisionURL(row.lat, row.long)} target="_blank">
-            Pokevision
-          </a>
-          <span className={s.spacer}></span>
-          <a href={this.gmapsURL(row.lat, row.long)} target="_blank">
-            Gmaps
-          </a>
-        </span>
+        <a href={this.gmapsURL(row.lat, row.long)} target="_blank">
+          {row.formatted_address}
+        </a>
+        <span className={s.spacer} />
+        <TiMap className={s.iconStyle} />
       </ListGroupItem>,
     ]);
   }

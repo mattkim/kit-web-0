@@ -36,6 +36,7 @@ import { setLocale } from './actions/intl';
 import { setLocation } from './actions/location';
 import { setWindowSize } from './actions/window';
 import { setFeed } from './actions/feed';
+import { setPokemonMap, setPokemonNames } from './actions/pokemon';
 import { port, auth, locales, apiUrl } from './config';
 
 const app = express();
@@ -175,6 +176,14 @@ app.get('*', async (req, res, next) => {
 
     store.dispatch(setFeed({
       feed: [],
+    }));
+
+    store.dispatch(setPokemonMap({
+      pokemonMap: {},
+    }));
+
+    store.dispatch(setPokemonNames({
+      pokemonNames: [],
     }));
 
     await store.dispatch(setLocale({

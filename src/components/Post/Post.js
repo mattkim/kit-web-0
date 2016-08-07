@@ -37,14 +37,17 @@ class Post extends Component {
     apiUrl: React.PropTypes.string,
     addFeed: React.PropTypes.func,
     user: React.PropTypes.object,
+    pokemonMap: React.PropTypes.object, // TODO: Is this right?
+    pokemonNames: React.PropTypes.array, // TODO: Is this right?
   };
 
   constructor(props) {
     super(props);
     this.state = {
       textAreaValue: null,
-      selectValue: 'bulbasaur', // It's the default selector
+      selectValue: null, // It's the default selector
       checkboxValue: false,
+      errorMessage: null,
     };
 
     this.handleTextAreaChange = this.handleTextAreaChange.bind(this);
@@ -55,6 +58,34 @@ class Post extends Component {
 
   componentDidMount() {
     ReactDOM.findDOMNode(this.refs.nameInput).focus();
+  }
+
+  getPokemonList() {
+    // TODO: to get images in the drop down, we would need our own custom select.
+    const pokemonOptions = this.props.pokemonNames.map((name) => {
+      const pokemon = this.props.pokemonMap[name];
+      return (
+        <option value={pokemon.name}>
+          {pokemon.display_name}
+        </option>
+      );
+    });
+
+    return (
+      <FormGroup controlId="formControlsSelect">
+        <FormControl
+          componentClass="select"
+          placeholder="Select"
+          onChange={this.handleSelectChange}
+          className={s.selectStyle}
+        >
+          <option>
+            Select Pokemon
+          </option>
+          {pokemonOptions}
+        </FormControl>
+      </FormGroup>
+    );
   }
 
   handleTextAreaChange(e) {
@@ -70,27 +101,50 @@ class Post extends Component {
   }
 
   async handleSubmit(e) { // eslint-disable-line no-unused-vars
-    // Validate that lat long exists before submitting.
-    // TODO: move this into node js backend.
+    console.log('handleSubmit');
+    // Reset error message.
+    this.setState({ errorMessage: null });
+
+
     const url = `${this.props.apiUrl}/postfeed`;
     const message = this.state.textAreaValue;
     const pokemon = this.state.selectValue;
     const displayType = this.state.checkboxValue ? null : 'postal_code';
-    const lat = this.props.lat;
-    const long = this.props.long;
-    const geocodes = this.props.geocodes; // geocodes is a string?
+    const geocodes = this.props.geocodes;
     const username = this.props.user.Username;
     const createdByUserUUID = this.props.user.UUID; // TODO: convert to lowercase?
+    const geocode = getGeocodeByType(geocodes, displayType);
+    const lat = geocode.lat;
+    const long = geocode.long;
+    const formattedAddress = geocode.formattedAddress;
+
+    if (!message) {
+      this.setState({ errorMessage: 'Please write a message.' });
+      return;
+    }
+
+    if (!pokemon) {
+      this.setState({ errorMessage: 'Please select a pokemon.' });
+      return;
+    }
+
+    if (!lat || !long || !formattedAddress) {
+      this.setState({ errorMessage: 'Must wait until location is found.' });
+      return;
+    }
+
+    if (!username || !createdByUserUUID) {
+      this.setState({ errorMessage: 'Must be logged in to post.' });
+      return;
+    }
 
     const data = {
       created_by_user_uuid: createdByUserUUID,
-      username,
       message,
       pokemon,
       lat,
       long,
-      geocodes,
-      display_type: displayType,
+      formatted_address: formattedAddress,
     };
 
     const response = await fetch(url, {
@@ -105,8 +159,6 @@ class Post extends Component {
       throw new Error(response.statusText);
     }
 
-    const geocode = getGeocodeByType(geocodes, displayType);
-
     this.props.addFeed({
       singleFeed: createSingleFeed(
         username,
@@ -115,6 +167,8 @@ class Post extends Component {
         geocode.lat,
         geocode.long,
         geocode.formattedAddress,
+        null,
+        this.props.pokemonMap,
       ),
     });
 
@@ -133,6 +187,7 @@ class Post extends Component {
                 <AddressWrapper />
                 <br />
                 <br />
+                <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
                 <FormGroup controlId="formControlsTextarea">
                   <FormControl
                     componentClass="textarea"
@@ -150,18 +205,7 @@ class Post extends Component {
             <Row>
               <Col sm={0} md={2} />
               <Col sm={12} md={8}>
-                <FormGroup controlId="formControlsSelect">
-                  <FormControl
-                    componentClass="select"
-                    placeholder="Select"
-                    onChange={this.handleSelectChange}
-                    className={s.selectStyle}
-                  >
-                    <option value="bulbasaur">Bulbasaur</option>
-                    <option value="charmander">Charmander</option>
-                    <option value="squirtle">Squirtle</option>
-                  </FormControl>
-                </FormGroup>
+                {this.getPokemonList()}
               </Col>
               <Col sm={0} md={2} />
             </Row>

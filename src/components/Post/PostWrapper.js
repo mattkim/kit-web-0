@@ -12,6 +12,8 @@ function mapStateToProps(state) {
     isMobile: state.window.isMobile,
     apiUrl: state.runtime.apiUrl,
     user: state.user.user,
+    pokemonMap: state.pokemon.pokemonMap,
+    pokemonNames: state.pokemon.pokemonNames,
   };
 }
 
