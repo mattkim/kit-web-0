@@ -70,6 +70,11 @@ class Profile extends Component {
                 Log out
               </Button>
             </FormGroup>
+            <br />
+            <br />
+            <p className={"text-center"}>
+              Have feedback?  Email <a href='mailto:pokefeed-feedback@bitoboto.com'>pokefeed-feedback@bitoboto.com</a>
+            </p>
           </div>
         </div>
       );

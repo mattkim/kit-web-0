@@ -11,6 +11,7 @@ import React, { Component, PropTypes } from 'react';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import s from './App.css';
 import HeaderWrapper from '../Header/HeaderWrapper';
+import AddressWrapper from '../Address/AddressWrapper';
 import SetLocation from './SetLocation';
 import SetWindowSize from './SetWindowSize';
 import SetFeed from './SetFeed';
@@ -33,6 +34,10 @@ class App extends Component {
     error: PropTypes.object,
     user: React.PropTypes.object,
     getUserExecuted: React.PropTypes.bool,
+    lat: React.PropTypes.number,
+    long: React.PropTypes.number,
+    geocodes: React.PropTypes.array,
+    locationError: React.PropTypes.object,
   };
 
   static childContextTypes = {
@@ -66,7 +71,36 @@ class App extends Component {
 
     let result = null;
 
-    if (
+    // TODO: make this look better
+    if (this.props.locationError) {
+      result = (
+        <div className={s.root}>
+          <div className={s.container}>
+            <Grid>
+              <Row className={s.centerText}>
+                <br />
+                <AddressWrapper />
+              </Row>
+            </Grid>
+          </div>
+        </div>
+      );
+    } else if (!this.props.lat || !this.props.long || !this.props.geocodes) {
+      result = (
+        <div className={s.root}>
+          <div className={s.container}>
+            <Grid>
+              <Row className={s.centerText}>
+                <br />
+                <div>
+                  <span>{'Getting location...'}</span>
+                </div>
+              </Row>
+            </Grid>
+          </div>
+        </div>
+      );
+    } else if (
       !this.props.user &&
       history.getCurrentLocation().pathname !== '/profile' &&
       !this.props.getUserExecuted
@@ -86,9 +120,9 @@ class App extends Component {
         </div>
       );
     } else if (
-          !this.props.user &&
-          history.getCurrentLocation().pathname !== '/profile' &&
-          this.props.getUserExecuted
+      !this.props.user &&
+      history.getCurrentLocation().pathname !== '/profile' &&
+      this.props.getUserExecuted
     ) {
       history.push('/profile');
     } else {
