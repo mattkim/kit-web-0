@@ -51,14 +51,6 @@ class SetUser extends Component {
   }
 
   render() {
-    if (
-      !this.props.user &&
-      history.getCurrentLocation().pathname !== '/profile' &&
-      this.state.getUserExecuted
-    ) {
-      history.push('/profile');
-    }
-
     return (
       <div>
       </div>
