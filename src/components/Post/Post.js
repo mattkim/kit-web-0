@@ -36,6 +36,7 @@ class Post extends Component {
     isMobile: React.PropTypes.bool,
     apiUrl: React.PropTypes.string,
     addFeed: React.PropTypes.func,
+    addLocalFeed: React.PropTypes.func,
     user: React.PropTypes.object,
     pokemonMap: React.PropTypes.object, // TODO: Is this right?
     pokemonNames: React.PropTypes.array, // TODO: Is this right?
@@ -159,18 +160,20 @@ class Post extends Component {
       throw new Error(response.statusText);
     }
 
-    this.props.addFeed({
-      singleFeed: createSingleFeed(
-        username,
-        message,
-        pokemon,
-        geocode.lat,
-        geocode.long,
-        geocode.formattedAddress,
-        null,
-        this.props.pokemonMap,
-      ),
-    });
+    const singleFeed = createSingleFeed(
+      username,
+      message,
+      pokemon,
+      geocode.lat,
+      geocode.long,
+      geocode.formattedAddress,
+      null,
+      this.props.pokemonMap,
+    );
+
+    // Add to both the global and local feed.
+    this.props.addFeed({ singleFeed });
+    this.props.addLocalFeed({ singleFeed });
 
     history.push('/');
   }

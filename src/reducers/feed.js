@@ -1,6 +1,9 @@
 import {
   ADD_FEED,
   SET_FEED,
+  ADD_LOCAL_FEED,
+  SET_LOCAL_FEED,
+  LOCAL_FEED,
   FEED,
 } from '../constants';
 
@@ -21,6 +24,23 @@ export default function feed(state = {}, action) {
         [FEED]: newFeed,
       };
     }
+
+    case SET_LOCAL_FEED: {
+      return {
+        ...state,
+        [LOCAL_FEED]: action.payload.localFeed,
+      };
+    }
+
+    case ADD_LOCAL_FEED: {
+      const localFeed = state.localFeed;
+      localFeed.unshift(action.payload.singleFeed);
+      return {
+        ...state,
+        [LOCAL_FEED]: localFeed,
+      };
+    }
+
     default:
       return state;
   }

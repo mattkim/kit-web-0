@@ -35,7 +35,7 @@ import Provide from './components/Provide';
 import { setLocale } from './actions/intl';
 import { setLocation } from './actions/location';
 import { setWindowSize } from './actions/window';
-import { setFeed } from './actions/feed';
+import { setFeed, setLocalFeed } from './actions/feed';
 import { setPokemonMap, setPokemonNames } from './actions/pokemon';
 import { setGetUserExecuted } from './actions/user';
 import { port, auth, locales, apiUrl } from './config';
@@ -179,6 +179,10 @@ app.get('*', async (req, res, next) => {
 
     store.dispatch(setFeed({
       feed: [],
+    }));
+
+    store.dispatch(setLocalFeed({
+      localFeed: [],
     }));
 
     store.dispatch(setPokemonMap({

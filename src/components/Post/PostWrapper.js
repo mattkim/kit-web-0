@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Post from './Post';
-import { addFeed } from '../../actions/feed';
+import { addFeed, addLocalFeed } from '../../actions/feed';
 
 function mapStateToProps(state) {
   return {
@@ -21,6 +21,9 @@ function mapDispatchToProps(dispatch) {
   return {
     addFeed: (singleFeed) => {
       dispatch(addFeed(singleFeed));
+    },
+    addLocalFeed: (singleFeed) => {
+      dispatch(addLocalFeed(singleFeed));
     },
   };
 }

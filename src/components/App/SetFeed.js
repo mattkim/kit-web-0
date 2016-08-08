@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setFeed } from '../../actions/feed';
+import { setFeed, setLocalFeed } from '../../actions/feed';
 import { setPokemonMap, setPokemonNames } from '../../actions/pokemon';
 import { getFeedByLocation, getLatestFeeds } from '../../lib/feedutils';
 import { setLocation, setLocationError } from '../../actions/location';
@@ -65,8 +65,9 @@ class SetFeed extends Component {
   }
 
   async getFeed(dispatch, apiUrl, pos) {
-    // return this.getFeedByLocation(dispatch, apiUrl, pos);
-    return this.getLatestFeeds(dispatch, apiUrl);
+    // Set to both local and global feed.
+    this.getFeedByLocation(dispatch, apiUrl, pos);
+    this.getLatestFeeds(dispatch, apiUrl);
   }
 
   async getLatestFeeds(dispatch, apiUrl) {
@@ -76,7 +77,7 @@ class SetFeed extends Component {
 
   async getFeedByLocation(dispatch, apiUrl, pos) {
     const feeds = await getFeedByLocation(apiUrl, pos.lat, pos.long, 0.1, 0.1, this.props.pokemonMap);
-    dispatch(setFeed({ feed: feeds }));
+    dispatch(setLocalFeed({ localFeed: feeds }));
   }
 
   render() {

@@ -13,7 +13,6 @@ import TiMap from 'react-icons/lib/ti/map';
 import s from './Feed.css';
 import { getDateDiff } from '../../lib/dateutils';
 import AddressWrapper from '../Address/AddressWrapper';
-import { getFeedByLocation, getLatestFeeds } from '../../lib/feedutils';
 import {
   Grid,
   ListGroup,
@@ -31,16 +30,35 @@ class Feed extends Component {
     height: React.PropTypes.number,
     isMobile: React.PropTypes.bool,
     feed: React.PropTypes.array,
+    localFeed: React.PropTypes.array,
     apiUrl: React.PropTypes.string,
-    setFeed: React.PropTypes.func,
     pokemonMap: React.PropTypes.object,
   };
 
   constructor(props) {
     super(props);
+    this.state = {
+      feedType: 'global',
+    };
 
-    this.getLatestFeeds = this.getLatestFeeds.bind(this);
-    this.getFeedByLocation = this.getFeedByLocation.bind(this);
+    this.setGlobal = this.setGlobal.bind(this);
+    this.setLocal = this.setLocal.bind(this);
+  }
+
+  setGlobal(e) {
+    this.setState({ feedType: 'global' });
+  }
+
+  setLocal(e) {
+    this.setState({ feedType: 'local' });
+  }
+
+  getFeed() {
+    if (this.state.feedType === 'local') {
+      return this.props.localFeed;
+    }
+
+    return this.props.feed;
   }
 
   gmapsURL(lat, long) {
@@ -125,20 +143,6 @@ class Feed extends Component {
     ]);
   }
 
-  async getLatestFeeds() {
-    console.log('***** getLatestFeeds');
-    console.log(this.props);
-    const feeds = await getLatestFeeds(this.props.apiUrl, this.props.pokemonMap);
-    this.props.setFeed({ feed: feeds });
-  }
-
-  async getFeedByLocation() {
-    console.log('***** getFeedByLocation');
-    console.log(this.props);
-    const feeds = await getFeedByLocation(this.props.apiUrl, this.props.lat, this.props.long, 0.1, 0.1, this.props.pokemonMap);
-    this.props.setFeed({ feed: feeds });
-  }
-
   render() {
     return (
       <div className={s.root}>
@@ -148,12 +152,13 @@ class Feed extends Component {
               <br />
               <AddressWrapper />
               <br />
-              <a onClick={this.getLatestFeeds}>Global</a> | <a onClick={this.getFeedByLocation}>Local</a>
+              <br />
+              <a onClick={this.setGlobal}>Global</a> | <a onClick={this.setLocal}>Local</a>
               <br />
             </Row>
             {this.props.isMobile ?
-              this.createCombinedGroupItems(this.props.feed) :
-              this.createGroupItems(this.props.feed)}
+              this.createCombinedGroupItems(this.getFeed()) :
+              this.createGroupItems(this.getFeed())}
           </Grid>
         </div>
       </div>
