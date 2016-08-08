@@ -149,6 +149,7 @@ class Feed extends Component {
               <AddressWrapper />
               <br />
               <a onClick={this.getLatestFeeds}>Global</a> | <a onClick={this.getFeedByLocation}>Local</a>
+              <br />
             </Row>
             {this.props.isMobile ?
               this.createCombinedGroupItems(this.props.feed) :
