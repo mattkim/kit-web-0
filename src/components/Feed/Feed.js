@@ -152,8 +152,8 @@ class Feed extends Component {
               <br />
               <AddressWrapper />
               <br />
-              <br />
               <a onClick={this.setGlobal}>Global</a> | <a onClick={this.setLocal}>Local</a>
+              <br />
               <br />
             </Row>
             {this.props.isMobile ?
