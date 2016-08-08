@@ -42,8 +42,6 @@ class Profile extends Component {
   }
 
   display() {
-    // TODO: these attributes are uppercase and should be changed.
-    // TODO: need to implement logout here.
     if (this.userLoggedIn()) {
       return (
         <div className={s.root}>
@@ -52,7 +50,16 @@ class Profile extends Component {
             <PageHeader>
               Hello {this.props.user.username}!
             </PageHeader>
-            <h5>email: {this.props.user.email}</h5>
+            <label>Username:</label>
+            <span className={'pull-right'}>
+              {this.props.user.username}
+            </span>
+            <br />
+            <label>Email:</label>
+            <span className={'pull-right'}>
+              {this.props.user.email}
+            </span>
+            <br />
             <br />
             <FormGroup>
               <Button
