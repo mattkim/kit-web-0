@@ -60,6 +60,8 @@ class Register extends Component {
   }
 
   async handleSubmit(e) { // eslint-disable-line no-unused-vars
+    e.preventDefault();
+
     // Clear the error message
     this.setState({ errorMessage: null });
 
@@ -129,7 +131,7 @@ class Register extends Component {
           <small>Keep up with the latest pokemon go news.</small>
         </PageHeader>
         <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
-        <Form horizontal>
+        <Form horizontal onSubmit={this.handleSubmit}>
           <FormGroup controlId="formHorizontalEmail">
             <FormControl
               type="email"
@@ -161,7 +163,7 @@ class Register extends Component {
           <FormGroup controlId="formHorizontalSubmit">
             <Button
               bsStyle="success"
-              onClick={this.handleSubmit}
+              type="submit"
               className={cx(s.buttonStyle, 'pull-right')}
             >
               Register

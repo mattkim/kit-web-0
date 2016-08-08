@@ -47,6 +47,8 @@ class Login extends Component {
   }
 
   async handleSubmit(e) { // eslint-disable-line no-unused-vars
+    e.preventDefault();
+
     // Clear the error message
     this.setState({ errorMessage: null });
 
@@ -103,7 +105,7 @@ class Login extends Component {
     return (
       <div>
         <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
-        <Form horizontal>
+        <Form horizontal onSubmit={this.handleSubmit}>
           <br />
           <FormGroup controlId="formHorizontalEmail">
             <FormControl
@@ -122,7 +124,7 @@ class Login extends Component {
           <FormGroup>
             <Button
               bsStyle="info"
-              onClick={this.handleSubmit}
+              type="submit"
               className={cx(s.buttonStyle, 'pull-right')}
             >
               Log in
