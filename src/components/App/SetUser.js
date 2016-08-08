@@ -51,10 +51,9 @@ class SetUser extends Component {
   }
 
   render() {
-    // TODO: this seems like a good way to redirect page clicks.
     if (
       !this.props.user &&
-      this.props.componentDisplayName !== 'Profile' &&
+      history.getCurrentLocation().pathname !== '/profile' &&
       this.state.getUserExecuted
     ) {
       history.push('/profile');

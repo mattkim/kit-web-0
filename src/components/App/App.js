@@ -15,6 +15,7 @@ import SetLocation from './SetLocation';
 import SetWindowSize from './SetWindowSize';
 import SetFeed from './SetFeed';
 import SetUser from './SetUser';
+import history from '../../core/history';
 import {
   Grid,
   Row,
@@ -65,15 +66,10 @@ class App extends Component {
 
     let result = null;
 
-    // TODO: make this look a little cleaner but it works now.
-    console.log('**** render app');
-    console.log(this.props.user);
-    console.log(this.props.children);
     if (
       !this.props.user &&
-      this.props.children.type.ComposedComponent.displayName !== 'Profile'
+      history.getCurrentLocation().pathname !== '/profile'
     ) {
-      console.log('loading....');
       result = (
         <div className={s.root}>
           <div className={s.container}>
@@ -89,7 +85,6 @@ class App extends Component {
         </div>
       );
     } else {
-      console.log('not loading....');
       result = this.props.children;
     }
 
