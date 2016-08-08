@@ -166,8 +166,8 @@ app.get('*', async (req, res, next) => {
     }));
 
     store.dispatch(setLocation({
-      lat: 37.7786255,
-      long: -122.4295503,
+      lat: null,
+      long: null,
       address: null,
     }));
 

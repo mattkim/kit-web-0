@@ -6,6 +6,7 @@ function mapStateToProps(state) {
     lat: state.location.lat,
     long: state.location.long,
     geocodes: state.location.geocodes,
+    locationError: state.location.locationError,
   };
 }
 

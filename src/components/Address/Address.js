@@ -18,10 +18,33 @@ class Address extends Component {
     lat: React.PropTypes.number,
     long: React.PropTypes.number,
     geocodes: React.PropTypes.array,
+    locationError: React.PropTypes.object,
   };
 
   addressMessage() {
-    if (this.props.geocodes) {
+    if (this.props.locationError) {
+      const error = this.props.locationError;
+
+      let errorMessage = '';
+
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          errorMessage = 'User denied the request for Geolocation.';
+          break;
+        case error.POSITION_UNAVAILABLE:
+          errorMessage = 'Location information is unavailable.';
+          break;
+        case error.TIMEOUT:
+          errorMessage = 'The request to get user location timed out.';
+          break;
+        default:
+          errorMessage = 'An unknown error occurred.';
+      }
+
+      return (
+        <h5 className={'text-danger'}>{errorMessage}</h5>
+      );
+    } else if (this.props.geocodes) {
       return (
         <span>
           <MdLocationOn className={s.iconStyle} />

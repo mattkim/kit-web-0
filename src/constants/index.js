@@ -10,11 +10,13 @@ export const ADD_FEED = 'ADD_FEED';
 export const SET_POKEMON_MAP = 'SET_POKEMON_MAP';
 export const SET_POKEMON_NAMES = 'SET_POKEMON_NAMES';
 export const SET_GET_USER_EXECUTED = 'SET_GET_USER_EXECUTED';
+export const SET_LOCATION_ERROR = 'SET_LOCATION_ERROR';
 
 export const LAT = 'lat';
 export const LONG = 'long';
 export const ADDRESS = 'address';
 export const GEOCODES = 'geocodes';
+export const LOCATION_ERROR = 'locationError';
 
 export const WIDTH = 'width';
 export const HEIGHT = 'height';

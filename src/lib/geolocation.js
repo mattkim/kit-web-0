@@ -18,11 +18,17 @@ async function handleLocation(position, callback) {
   callback(result);
 }
 
-function getCurrentPosition(callback) {
-  // TODO: create try-catch here.
+function getCurrentPosition(callback, errorCallback) {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
       handleLocation(position, callback);
+    },
+    (err) => {
+      errorCallback(err);
+    }, {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
     });
   }
 }

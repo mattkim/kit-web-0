@@ -114,9 +114,9 @@ class Post extends Component {
     const username = this.props.user.username;
     const createdByUserUUID = this.props.user.uuid; // TODO: convert to lowercase?
     const geocode = getGeocodeByType(geocodes, displayType);
-    const lat = geocode.lat;
-    const long = geocode.long;
-    const formattedAddress = geocode.formattedAddress;
+    const lat = geocode ? geocode.lat : null;
+    const long = geocode ? geocode.long : null;
+    const formattedAddress = geocode ? geocode.formattedAddress : null;
 
     if (!message) {
       this.setState({ errorMessage: 'Please write a message.' });

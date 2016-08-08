@@ -66,16 +66,11 @@ class App extends Component {
 
     let result = null;
 
-    console.log(this.props.user);
-    console.log(history.getCurrentLocation());
-    console.log(this.props.getUserExecuted);
-
     if (
       !this.props.user &&
       history.getCurrentLocation().pathname !== '/profile' &&
       !this.props.getUserExecuted
     ) {
-      console.log('loading...');
       result = (
         <div className={s.root}>
           <div className={s.container}>
@@ -95,11 +90,8 @@ class App extends Component {
           history.getCurrentLocation().pathname !== '/profile' &&
           this.props.getUserExecuted
     ) {
-      console.log('history push to profile...');
-      // TODO: it's possible that in prod getUserExecuted is refreshed.
       history.push('/profile');
     } else {
-      console.log('render page');
       result = this.props.children;
     }
 

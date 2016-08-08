@@ -1,4 +1,4 @@
-import { SET_LOCATION } from '../constants';
+import { SET_LOCATION, SET_LOCATION_ERROR } from '../constants';
 
 export function setLocation({ lat, long, geocodes }) {
   return {
@@ -7,6 +7,15 @@ export function setLocation({ lat, long, geocodes }) {
       lat,
       long,
       geocodes,
+    },
+  };
+}
+
+export function setLocationError({ locationError }) {
+  return {
+    type: SET_LOCATION_ERROR,
+    payload: {
+      locationError,
     },
   };
 }

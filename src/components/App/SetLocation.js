@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setLocation } from '../../actions/location';
+import { setLocation, setLocationError } from '../../actions/location';
 import getCurrentPosition from '../../lib/geolocation';
 
 class SetLocation extends Component {
@@ -17,6 +17,8 @@ class SetLocation extends Component {
   getCurrentPosition(dispatch) {
     getCurrentPosition((pos) => {
       dispatch(setLocation(pos));
+    }, (err) => {
+      dispatch(setLocationError({ locationError: err }));
     });
   }
 
