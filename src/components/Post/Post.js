@@ -111,8 +111,8 @@ class Post extends Component {
     const pokemon = this.state.selectValue;
     const displayType = this.state.checkboxValue ? null : 'postal_code';
     const geocodes = this.props.geocodes;
-    const username = this.props.user.Username;
-    const createdByUserUUID = this.props.user.UUID; // TODO: convert to lowercase?
+    const username = this.props.user.username;
+    const createdByUserUUID = this.props.user.uuid; // TODO: convert to lowercase?
     const geocode = getGeocodeByType(geocodes, displayType);
     const lat = geocode.lat;
     const long = geocode.long;
@@ -141,7 +141,7 @@ class Post extends Component {
     const data = {
       created_by_user_uuid: createdByUserUUID,
       message,
-      pokemon,
+      pokemon_name: pokemon,
       lat,
       long,
       formatted_address: formattedAddress,

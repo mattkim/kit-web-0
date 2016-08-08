@@ -2,7 +2,7 @@ import { getNowISOStr } from './dateutils';
 
 function addMapProps(feed, pokemonMap) {
   const newFeed = feed;
-  const pokemon = pokemonMap[newFeed.pokemon];
+  const pokemon = pokemonMap[newFeed.pokemon_name];
   // Just incase this pokemon does not exist.
   if (pokemon) {
     newFeed.pokemon_image_url = pokemon.image_url;
@@ -15,7 +15,7 @@ function addMapProps(feed, pokemonMap) {
 function createSingleFeed(
   username,
   message,
-  pokemon,
+  pokemonName,
   lat,
   long,
   formattedAddress,
@@ -33,7 +33,7 @@ function createSingleFeed(
     lat,
     long,
     message,
-    pokemon,
+    pokemon_name: pokemonName,
     username,
     formatted_address: formattedAddress,
   };

@@ -50,9 +50,9 @@ class Profile extends Component {
           <div className={s.container}>
             <br />
             <PageHeader>
-              Hello {this.props.user.Username}!
+              Hello {this.props.user.username}!
             </PageHeader>
-            <h5>email: {this.props.user.Email}</h5>
+            <h5>email: {this.props.user.email}</h5>
             <br />
             <FormGroup>
               <Button

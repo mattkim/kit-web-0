@@ -66,7 +66,7 @@ class SetFeed extends Component {
       feeds.push(createSingleFeed(
         d.username,
         d.message,
-        d.pokemon,
+        d.pokemon_name,
         d.lat,
         d.long,
         d.formatted_address,
