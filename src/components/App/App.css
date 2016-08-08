@@ -33,6 +33,7 @@ a {
 
 a:hover {
   color: #A2DB96;
+  cursor:pointer;
 }
 
 a:focus {

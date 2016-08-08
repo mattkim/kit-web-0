@@ -13,6 +13,7 @@ import TiMap from 'react-icons/lib/ti/map';
 import s from './Feed.css';
 import { getDateDiff } from '../../lib/dateutils';
 import AddressWrapper from '../Address/AddressWrapper';
+import { getFeedByLocation, getLatestFeeds } from '../../lib/feedutils';
 import {
   Grid,
   ListGroup,
@@ -30,11 +31,16 @@ class Feed extends Component {
     height: React.PropTypes.number,
     isMobile: React.PropTypes.bool,
     feed: React.PropTypes.array,
+    apiUrl: React.PropTypes.string,
+    setFeed: React.PropTypes.func,
+    pokemonMap: React.PropTypes.object,
   };
 
-  pokevisionURL(lat, long) {
-    // TODO: move to config
-    return `https://pokevision.com/#/@${lat},${long}`;
+  constructor(props) {
+    super(props);
+
+    this.getLatestFeeds = this.getLatestFeeds.bind(this);
+    this.getFeedByLocation = this.getFeedByLocation.bind(this);
   }
 
   gmapsURL(lat, long) {
@@ -119,6 +125,20 @@ class Feed extends Component {
     ]);
   }
 
+  async getLatestFeeds() {
+    console.log('***** getLatestFeeds');
+    console.log(this.props);
+    const feeds = await getLatestFeeds(this.props.apiUrl, this.props.pokemonMap);
+    this.props.setFeed({ feed: feeds });
+  }
+
+  async getFeedByLocation() {
+    console.log('***** getFeedByLocation');
+    console.log(this.props);
+    const feeds = await getFeedByLocation(this.props.apiUrl, this.props.lat, this.props.long, 0.1, 0.1, this.props.pokemonMap);
+    this.props.setFeed({ feed: feeds });
+  }
+
   render() {
     return (
       <div className={s.root}>
@@ -128,7 +148,7 @@ class Feed extends Component {
               <br />
               <AddressWrapper />
               <br />
-              <br />
+              <a onClick={this.getLatestFeeds}>Global</a> | <a onClick={this.getFeedByLocation}>Local</a>
             </Row>
             {this.props.isMobile ?
               this.createCombinedGroupItems(this.props.feed) :

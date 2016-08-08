@@ -12,7 +12,6 @@ import emptyFunction from 'fbjs/lib/emptyFunction';
 import s from './App.css';
 import HeaderWrapper from '../Header/HeaderWrapper';
 import AddressWrapper from '../Address/AddressWrapper';
-import SetLocation from './SetLocation';
 import SetWindowSize from './SetWindowSize';
 import SetFeed from './SetFeed';
 import SetUser from './SetUser';
@@ -134,7 +133,6 @@ class App extends Component {
         <SetUser componentDisplayName={this.props.children.type.ComposedComponent.displayName} />
         <HeaderWrapper />
         <SetWindowSize />
-        <SetLocation />
         <SetFeed />
         {result}
       </div>

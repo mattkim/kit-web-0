@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setFeed } from '../../actions/feed';
 import { setPokemonMap, setPokemonNames } from '../../actions/pokemon';
-import { createSingleFeed } from '../../lib/feedutils';
+import { getFeedByLocation, getLatestFeeds } from '../../lib/feedutils';
+import { setLocation, setLocationError } from '../../actions/location';
+import getCurrentPosition from '../../lib/geolocation';
 
 class SetFeed extends Component {
   static propTypes = {
@@ -12,9 +14,24 @@ class SetFeed extends Component {
   };
 
   componentDidMount() {
-    this.getAllPokemon(this.props.dispatch, this.props.apiUrl).then(() => {
-      // First set all pokemon, then get feed.
-      this.getFeed(this.props.dispatch, this.props.apiUrl);
+    // TODO: this is super ugly, fix later.
+    this.getCurrentPosition(
+      this.props.dispatch,
+      (pos) => {
+        this.getAllPokemon(this.props.dispatch, this.props.apiUrl).then(() => {
+          // First set all pokemon, then get feed.
+          this.getFeed(this.props.dispatch, this.props.apiUrl, pos);
+        });
+      }
+    );
+  }
+
+  getCurrentPosition(dispatch, callback) {
+    getCurrentPosition((pos) => {
+      callback(pos);
+      dispatch(setLocation(pos));
+    }, (err) => {
+      dispatch(setLocationError({ locationError: err }));
     });
   }
 
@@ -47,36 +64,19 @@ class SetFeed extends Component {
     return data;
   }
 
-  async getFeed(dispatch, apiUrl) {
-    const resp = await fetch(`${apiUrl}/latestfeeds`, {
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-    if (resp.status !== 200) throw new Error(resp.statusText);
-    // Weird but I have to await twice.
-    const data = await await resp.json();
-    if (!data) return undefined;
+  async getFeed(dispatch, apiUrl, pos) {
+    // return this.getFeedByLocation(dispatch, apiUrl, pos);
+    return this.getLatestFeeds(dispatch, apiUrl);
+  }
 
-    const feeds = [];
-
-    for (const d of data) {
-      feeds.push(createSingleFeed(
-        d.username,
-        d.message,
-        d.pokemon_name,
-        d.lat,
-        d.long,
-        d.formatted_address,
-        d.created_at,
-        this.props.pokemonMap
-      ));
-    }
-
+  async getLatestFeeds(dispatch, apiUrl) {
+    const feeds = await getLatestFeeds(apiUrl, this.props.pokemonMap);
     dispatch(setFeed({ feed: feeds }));
-    return data;
+  }
+
+  async getFeedByLocation(dispatch, apiUrl, pos) {
+    const feeds = await getFeedByLocation(apiUrl, pos.lat, pos.long, 0.1, 0.1, this.props.pokemonMap);
+    dispatch(setFeed({ feed: feeds }));
   }
 
   render() {
