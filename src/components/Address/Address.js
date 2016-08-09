@@ -29,10 +29,10 @@ class Address extends Component {
 
       switch (error.code) {
         case error.PERMISSION_DENIED:
-          errorMessage = 'Please enable location services.';
+          errorMessage = 'Turn on location services.';
           break;
         default:
-          errorMessage = 'Location information is unavailable.  Please try again later.';
+          errorMessage = 'Location unavailable.  Try refreshing.';
       }
 
       return (

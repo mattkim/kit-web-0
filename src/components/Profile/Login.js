@@ -104,6 +104,7 @@ class Login extends Component {
   render() {
     return (
       <div>
+        <p className={"text-center"}>Already a member? Log in here.</p>
         <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
         <Form horizontal onSubmit={this.handleSubmit}>
           <br />

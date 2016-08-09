@@ -126,9 +126,9 @@ class Register extends Component {
     return (
       <div>
         <PageHeader>
-          Register Now
+          Share your Pokemon Go experience.
           <br />
-          <small>Keep up with the latest pokemon go news.</small>
+          <small>Sign up to view and post about sightings, catches, and gym battles!</small>
         </PageHeader>
         <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
         <Form horizontal onSubmit={this.handleSubmit}>
@@ -166,7 +166,7 @@ class Register extends Component {
               type="submit"
               className={cx(s.buttonStyle, 'pull-right')}
             >
-              Register
+              Sign up
             </Button>
           </FormGroup>
         </Form>
