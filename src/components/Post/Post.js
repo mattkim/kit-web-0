@@ -286,6 +286,7 @@ class Post extends Component {
                 Submit
               </Button>
               <br />
+              <br />
             </Row>
           </Grid>
         </div>
