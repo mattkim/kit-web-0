@@ -214,13 +214,21 @@ class Post extends Component {
         <div className={s.container}>
           <Grid>
             <Row>
-              <br />
               <Col sm={0} md={3} />
               <Col sm={12} md={6} className={s.centerText}>
+                <br />
                 <AddressWrapper />
-                <br />
-                <br />
+                <Checkbox onChange={this.handleCheckboxChange} className={s.formCheckboxRow}>
+                  Share exact location
+                </Checkbox>
                 <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
+              </Col>
+              <Col sm={0} md={3} />
+            </Row>
+            <Row>
+              <br />
+              <Col sm={0} md={3} />
+              <Col sm={12} md={6}>
                 <FormGroup controlId="formControlsTextarea">
                   <FormControl
                     componentClass="textarea"
@@ -238,20 +246,9 @@ class Post extends Component {
             <Row>
               <Col sm={0} md={3} />
               <Col sm={12} md={6}>
-                <div style={{ minHeight: '50px' }}>
+                <div style={{ minHeight: '100px' }}>
                   {this.renderChosenStickerTags()}
                 </div>
-              </Col>
-              <Col sm={0} md={3} />
-            </Row>
-            <Row>
-              <Col sm={0} md={3} />
-              <Col sm={12} md={6}>
-                <br />
-                <br />
-                <Checkbox onChange={this.handleCheckboxChange} className={s.formCheckboxRow}>
-                  Share exact location
-                </Checkbox>
               </Col>
               <Col sm={0} md={3} />
             </Row>
