@@ -215,8 +215,8 @@ class Post extends Component {
           <Grid>
             <Row>
               <br />
-              <Col sm={0} md={2} />
-              <Col sm={12} md={8} className={s.centerText}>
+              <Col sm={0} md={3} />
+              <Col sm={12} md={6} className={s.centerText}>
                 <AddressWrapper />
                 <br />
                 <br />
@@ -228,36 +228,36 @@ class Post extends Component {
                     onChange={this.handleTextAreaChange}
                     ref="nameInput"
                     className={s.textAreaStyle}
-                    style={{ height: this.props.height * 0.25 }}
+                    style={{ height: 100 }}
                     autofocus
                   />
                 </FormGroup>
               </Col>
-              <Col sm={0} md={2} />
+              <Col sm={0} md={3} />
             </Row>
             <Row>
-              <Col sm={0} md={2} />
-              <Col sm={12} md={8}>
+              <Col sm={0} md={3} />
+              <Col sm={12} md={6}>
                 <div style={{ height: '50px' }}>
                   {this.renderChosenStickerTags()}
                 </div>
               </Col>
-              <Col sm={0} md={2} />
+              <Col sm={0} md={3} />
             </Row>
             <Row>
-              <Col sm={0} md={2} />
-              <Col sm={12} md={8}>
+              <Col sm={0} md={3} />
+              <Col sm={12} md={6}>
                 <br />
                 <br />
                 <Checkbox onChange={this.handleCheckboxChange} className={s.formCheckboxRow}>
                   Share exact location
                 </Checkbox>
               </Col>
-              <Col sm={0} md={2} />
+              <Col sm={0} md={3} />
             </Row>
             <Row>
-              <Col sm={0} md={2} />
-              <Col sm={12} md={8}>
+              <Col sm={0} md={3} />
+              <Col sm={12} md={6}>
                 <Tabs
                   activeKey={this.state.key}
                   onSelect={this.handleSelect}
@@ -274,7 +274,7 @@ class Post extends Component {
                 <br />
                 <br />
               </Col>
-              <Col sm={0} md={2} />
+              <Col sm={0} md={3} />
             </Row>
             <Row className={s.formButtonsRow}>
               <br />
