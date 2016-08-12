@@ -238,7 +238,7 @@ class Post extends Component {
             <Row>
               <Col sm={0} md={3} />
               <Col sm={12} md={6}>
-                <div style={{ height: '50px' }}>
+                <div style={{ minHeight: '50px' }}>
                   {this.renderChosenStickerTags()}
                 </div>
               </Col>
