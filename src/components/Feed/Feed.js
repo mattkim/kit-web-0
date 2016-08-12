@@ -12,6 +12,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import TiMap from 'react-icons/lib/ti/map';
 import s from './Feed.css';
 import { getDateDiff } from '../../lib/dateutils';
+import { styleFeedTag } from '../../lib/feedtagutils';
 import AddressWrapper from '../Address/AddressWrapper';
 import {
   Grid,
@@ -32,7 +33,7 @@ class Feed extends Component {
     feed: React.PropTypes.array,
     localFeed: React.PropTypes.array,
     apiUrl: React.PropTypes.string,
-    pokemonMap: React.PropTypes.object,
+    feedTagMap: React.PropTypes.object,
   };
 
   constructor(props) {
@@ -45,11 +46,11 @@ class Feed extends Component {
     this.setLocal = this.setLocal.bind(this);
   }
 
-  setGlobal(e) {
+  setGlobal(e) { // eslint-disable-line no-unused-vars
     this.setState({ feedType: 'global' });
   }
 
-  setLocal(e) {
+  setLocal(e) { // eslint-disable-line no-unused-vars
     this.setState({ feedType: 'local' });
   }
 
@@ -102,45 +103,56 @@ class Feed extends Component {
     );
   }
 
-  createSingleGroup(row, innerFeedClass) {
+  createSingleGroup(feedItem, innerFeedClass) {
     // So this image should come from backend go server and it should have a
     // a map between pokemon and image... also it should uri encode the image.
-    return ([
+
+    const listGroupItems = [
       <ListGroupItem className={innerFeedClass}>
         <Row>
-          <Col xs={2} sm={2} md={2} lg={2}>
-            <img
-              alt={row.pokemon_display_name}
-              className={s.profileImg}
-              src={row.pokemon_image_url}
-            />
+          <Col xs={10} sm={10} md={10} lg={10}>
+            <span className={s.strongText}>{feedItem.username} </span>
           </Col>
-          <Col xs={10} sm={10} md={10} lg={10} className={s.feedText}>
-            <Row>
-              <Col xs={10} sm={10} md={10} lg={10}>
-                <span className={s.strongText}>{row.username} </span>
-                spotted <span className={s.strongText}>{row.pokemon_display_name}</span>
-              </Col>
-              <Col xs={2} sm={2} md={2} lg={2} className={s.rightFeedHeader}>
-                <span className={s.strongText}>
-                  {getDateDiff(row.created_at)}
-                </span>
-              </Col>
-            </Row>
+          <Col xs={2} sm={2} md={2} lg={2} className={s.rightFeedHeader}>
+            <span className={s.strongText}>
+              {getDateDiff(feedItem.created_at)}
+            </span>
           </Col>
         </Row>
       </ListGroupItem>,
       <ListGroupItem className={innerFeedClass}>
-        {row.message}
-      </ListGroupItem>,
-      <ListGroupItem className={innerFeedClass}>
-        <a href={this.gmapsURL(row.lat, row.long)} target="_blank">
-          {row.formatted_address}
+        <a href={this.gmapsURL(feedItem.lat, feedItem.long)} target="_blank">
+          {feedItem.formatted_address}
         </a>
         <span className={s.spacer} />
         <TiMap className={s.iconStyle} />
       </ListGroupItem>,
-    ]);
+      <ListGroupItem className={innerFeedClass}>
+        {feedItem.message}
+      </ListGroupItem>,
+    ];
+
+    if (feedItem.feedTags.length > 0) {
+      listGroupItems.push(this.renderFeedTags(feedItem.feedTags, innerFeedClass));
+    }
+
+    return listGroupItems;
+  }
+
+  renderFeedTags(feedTags, innerFeedClass) {
+    const styledTags = feedTags.map((tag) =>
+      styleFeedTag(tag, () => {}, false)
+    );
+
+    return (
+      <ListGroupItem className={innerFeedClass}>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12}>
+            {styledTags}
+          </Col>
+        </Row>
+      </ListGroupItem>
+    );
   }
 
   render() {

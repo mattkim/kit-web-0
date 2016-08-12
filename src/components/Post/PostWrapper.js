@@ -12,7 +12,7 @@ function mapStateToProps(state) {
     isMobile: state.window.isMobile,
     apiUrl: state.runtime.apiUrl,
     user: state.user.user,
-    pokemonMap: state.pokemon.pokemonMap,
+    feedTagMap: state.feedtagmap.feedTagMap,
     pokemonNames: state.pokemon.pokemonNames,
   };
 }

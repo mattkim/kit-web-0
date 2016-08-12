@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setFeed, setLocalFeed } from '../../actions/feed';
-import { setPokemonMap, setPokemonNames } from '../../actions/pokemon';
+import { setFeedTagMap } from '../../actions/feedtagmap';
+import { setPokemonNames } from '../../actions/pokemon';
 import { getFeedByLocation, getLatestFeeds } from '../../lib/feedutils';
 import { setLocation, setLocationError } from '../../actions/location';
 import getCurrentPosition from '../../lib/geolocation';
@@ -10,7 +11,6 @@ class SetFeed extends Component {
   static propTypes = {
     dispatch: React.PropTypes.func.isRequired,
     apiUrl: React.PropTypes.string,
-    pokemonMap: React.PropTypes.object,
   };
 
   componentDidMount() {
@@ -18,7 +18,7 @@ class SetFeed extends Component {
     this.getCurrentPosition(
       this.props.dispatch,
       (pos) => {
-        this.getAllPokemon(this.props.dispatch, this.props.apiUrl).then(() => {
+        this.getAllFeedTags(this.props.dispatch, this.props.apiUrl).then(() => {
           // First set all pokemon, then get feed.
           this.getFeed(this.props.dispatch, this.props.apiUrl, pos);
         });
@@ -35,8 +35,8 @@ class SetFeed extends Component {
     });
   }
 
-  async getAllPokemon(dispatch, apiUrl) {
-    const resp = await fetch(`${apiUrl}/allpokemon`, {
+  async getAllFeedTags(dispatch, apiUrl) {
+    const resp = await fetch(`${apiUrl}/allfeedtags`, {
       method: 'get',
       headers: {
         Accept: 'application/json',
@@ -48,15 +48,17 @@ class SetFeed extends Component {
     const data = await await resp.json();
     if (!data) return undefined;
 
-    const pmap = {};
+    const ftmap = {};
     const pnames = [];
 
-    for (const pokemon of data) {
-      pmap[pokemon.name] = pokemon;
-      pnames.push(pokemon.name);
+    for (const tag of data) {
+      ftmap[tag.name] = tag;
+      if (tag.type === 'pokemon') {
+        pnames.push(tag.name);
+      }
     }
 
-    dispatch(setPokemonMap({ pokemonMap: pmap }));
+    dispatch(setFeedTagMap({ feedTagMap: ftmap }));
 
     pnames.sort();
     dispatch(setPokemonNames({ pokemonNames: pnames }));
@@ -71,12 +73,12 @@ class SetFeed extends Component {
   }
 
   async getLatestFeeds(dispatch, apiUrl) {
-    const feeds = await getLatestFeeds(apiUrl, this.props.pokemonMap);
+    const feeds = await getLatestFeeds(apiUrl);
     dispatch(setFeed({ feed: feeds }));
   }
 
   async getFeedByLocation(dispatch, apiUrl, pos) {
-    const feeds = await getFeedByLocation(apiUrl, pos.lat, pos.long, 0.1, 0.1, this.props.pokemonMap);
+    const feeds = await getFeedByLocation(apiUrl, pos.lat, pos.long, 0.1, 0.1);
     dispatch(setLocalFeed({ localFeed: feeds }));
   }
 
@@ -91,7 +93,6 @@ class SetFeed extends Component {
 function mapStateToProps(state) {
   return {
     apiUrl: state.runtime.apiUrl,
-    pokemonMap: state.pokemon.pokemonMap,
   };
 }
 

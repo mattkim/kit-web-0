@@ -6,6 +6,7 @@ import window from './window';
 import feed from './feed';
 import pokemon from './pokemon';
 import user from './user';
+import feedtagmap from './feedtagmap';
 
 export default combineReducers({
   runtime,
@@ -15,4 +16,5 @@ export default combineReducers({
   feed,
   pokemon,
   user,
+  feedtagmap,
 });

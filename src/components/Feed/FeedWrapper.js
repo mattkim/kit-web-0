@@ -12,7 +12,7 @@ function mapStateToProps(state) {
     feed: state.feed.feed,
     localFeed: state.feed.localFeed,
     apiUrl: state.runtime.apiUrl,
-    pokemonMap: state.pokemon.pokemonMap,
+    feedTagMap: state.feedtagmap.feedTagMap,
   };
 }
 

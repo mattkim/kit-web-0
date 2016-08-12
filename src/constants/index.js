@@ -13,6 +13,8 @@ export const SET_POKEMON_MAP = 'SET_POKEMON_MAP';
 export const SET_POKEMON_NAMES = 'SET_POKEMON_NAMES';
 export const SET_GET_USER_EXECUTED = 'SET_GET_USER_EXECUTED';
 export const SET_LOCATION_ERROR = 'SET_LOCATION_ERROR';
+export const SET_GYM_MAP = 'SET_GYM_MAP';
+export const SET_FEED_TAG_MAP = 'SET_FEED_TAG_MAP';
 
 export const LAT = 'lat';
 export const LONG = 'long';
@@ -32,3 +34,7 @@ export const GET_USER_EXECUTED = 'getUserExecuted';
 
 export const POKEMON_MAP = 'pokemonMap';
 export const POKEMON_NAMES = 'pokemonNames';
+
+export const GYM_MAP = 'gymMap';
+
+export const FEED_TAG_MAP = 'feedTagMap';

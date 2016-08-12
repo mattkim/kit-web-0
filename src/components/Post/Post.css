@@ -22,6 +22,10 @@ button:focus {
     outline: none;
 }
 
+.stickerTag {
+  height: 50px;
+}
+
 .centerText {
   text-align: center;
 }
@@ -29,6 +33,18 @@ button:focus {
 .container {
   font-size: 1em;
 }
+
+.imgStyle {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  padding:5px;
+};
+
+.wrapperStyle {
+  height:300px;
+  overflow:auto;
+};
 
 .buttonStyle {
   border-radius: 50px;
