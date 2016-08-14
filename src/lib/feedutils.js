@@ -1,27 +1,41 @@
 import { getNowISOStr } from './dateutils';
 
 function createSingleFeed(
+  feedUUID,
   username,
   message,
   feedTags,
+  comments,
   lat,
   long,
   formattedAddress,
   createdAt,
 ) {
   let newCreatedAt = createdAt;
+  let newComments = comments;
+  let newFeedTags = feedTags;
 
   if (!newCreatedAt) {
     newCreatedAt = getNowISOStr();
   }
 
+  if (!newComments) {
+    newComments = [];
+  }
+
+  if (!newFeedTags) {
+    newFeedTags = [];
+  }
+
   const feed = {
+    uuid: feedUUID,
     created_at: newCreatedAt,
     lat,
     long,
     message,
     username,
-    feedTags,
+    feedTags: newFeedTags,
+    comments: newComments,
     formatted_address: formattedAddress,
   };
 
@@ -45,9 +59,11 @@ async function getFeedByLocation(apiUrl, lat, long, latRadius, longRadius) {
 
   for (const d of data) {
     feeds.push(createSingleFeed(
+      d.uuid,
       d.username,
       d.message,
       d.feed_tags,
+      d.comments,
       d.lat,
       d.long,
       d.formatted_address,
@@ -75,9 +91,11 @@ async function getLatestFeeds(apiUrl) {
 
   for (const d of data) {
     feeds.push(createSingleFeed(
+      d.uuid,
       d.username,
       d.message,
       d.feed_tags,
+      d.comments,
       d.lat,
       d.long,
       d.formatted_address,

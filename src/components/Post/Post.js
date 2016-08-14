@@ -10,6 +10,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import uuid from 'uuid';
 import history from '../../core/history';
 import s from './Post.css';
 import { createSingleFeed } from '../../lib/feedutils';
@@ -127,6 +128,7 @@ class Post extends Component {
     this.setState({ errorMessage: null });
 
     const url = `${this.props.apiUrl}/postfeed`;
+    const feedItemUUID = uuid.v4();
     const message = this.state.textAreaValue;
     const displayType = this.state.checkboxValue ? null : 'postal_code';
     const geocodes = this.props.geocodes;
@@ -154,6 +156,7 @@ class Post extends Component {
     }
 
     const data = {
+      uuid: feedItemUUID,
       created_by_user_uuid: createdByUserUUID,
       message,
       // TODO: make sure this works on the backend.
@@ -176,9 +179,11 @@ class Post extends Component {
     }
 
     const singleFeed = createSingleFeed(
+      feedItemUUID,
       username,
       message,
       feedTags,
+      null,
       geocode.lat,
       geocode.long,
       geocode.formattedAddress,
@@ -186,6 +191,8 @@ class Post extends Component {
     );
 
     // Add to both the global and local feed.
+
+    // TODO: for some reason these adds make dupe comments appear.
     this.props.addFeed({ singleFeed });
     this.props.addLocalFeed({ singleFeed });
 

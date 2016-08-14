@@ -15,6 +15,7 @@ export const SET_GET_USER_EXECUTED = 'SET_GET_USER_EXECUTED';
 export const SET_LOCATION_ERROR = 'SET_LOCATION_ERROR';
 export const SET_GYM_MAP = 'SET_GYM_MAP';
 export const SET_FEED_TAG_MAP = 'SET_FEED_TAG_MAP';
+export const ADD_COMMENT = 'ADD_COMMENT';
 
 export const LAT = 'lat';
 export const LONG = 'long';

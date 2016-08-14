@@ -5,6 +5,7 @@ import {
   SET_LOCAL_FEED,
   LOCAL_FEED,
   FEED,
+  ADD_COMMENT,
 } from '../constants';
 
 export default function feed(state = {}, action) {
@@ -38,6 +39,48 @@ export default function feed(state = {}, action) {
       return {
         ...state,
         [LOCAL_FEED]: localFeed,
+      };
+    }
+
+    case ADD_COMMENT: {
+      const feedUUID = action.payload.feedUUID;
+      const comment = action.payload.comment;
+      const localFeed = state.localFeed;
+      const newFeed = state.feed;
+
+      console.log("add_comment");
+      console.log(newFeed);
+
+      // TODO: jeeze these are bad.  But I don't have a hashmap sad face
+
+      for (const feedItem of newFeed) {
+        if (feedItem) {
+          if (feedItem.uuid === feedUUID) {
+            if (!feedItem.comments) {
+              feedItem.comments = [];
+            }
+            feedItem.comments.push(comment);
+          }
+        }
+      }
+
+      for (const feedItem of localFeed) {
+        // TODO: for some reason local feed has undefined here.
+        if (feedItem) {
+          if (feedItem.uuid === feedUUID) {
+            if (!feedItem.comments) {
+              feedItem.comments = [];
+            }
+            feedItem.comments.push(comment);
+          }
+        }
+      }
+
+      localFeed.unshift(action.payload.singleFeed);
+      return {
+        ...state,
+        [LOCAL_FEED]: localFeed,
+        [FEED]: newFeed,
       };
     }
 

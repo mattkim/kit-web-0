@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Feed from './Feed';
+import { addComment } from '../../actions/feed';
 
 function mapStateToProps(state) {
   return {
@@ -13,11 +14,21 @@ function mapStateToProps(state) {
     localFeed: state.feed.localFeed,
     apiUrl: state.runtime.apiUrl,
     feedTagMap: state.feedtagmap.feedTagMap,
+    user: state.user.user,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addComment: (feedUUID, comment) => {
+      dispatch(addComment(feedUUID, comment));
+    },
   };
 }
 
 const FeedWrapper = connect(
   mapStateToProps,
+  mapDispatchToProps
 )(Feed);
 
 export default FeedWrapper;

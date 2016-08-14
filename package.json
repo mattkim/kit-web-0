@@ -117,6 +117,7 @@
     "stylelint": "^6.9.0",
     "stylelint-config-standard": "^9.0.0",
     "url-loader": "^0.5.7",
+    "uuid": "^2.0.2",
     "webpack": "^1.13.1",
     "webpack-hot-middleware": "^2.10.0",
     "webpack-middleware": "^1.5.1"

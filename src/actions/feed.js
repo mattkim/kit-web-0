@@ -3,6 +3,7 @@ import {
   SET_FEED,
   ADD_LOCAL_FEED,
   SET_LOCAL_FEED,
+  ADD_COMMENT,
 } from '../constants';
 
 export function setFeed({ feed }) {
@@ -37,6 +38,19 @@ export function addLocalFeed({ singleFeed }) {
     type: ADD_LOCAL_FEED,
     payload: {
       singleFeed,
+    },
+  };
+}
+
+export function addComment({ feedUUID, comment }) {
+  console.log('addComment');
+  console.log(comment);
+  console.log(feedUUID);
+  return {
+    type: ADD_COMMENT,
+    payload: {
+      feedUUID,
+      comment,
     },
   };
 }
