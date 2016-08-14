@@ -165,7 +165,7 @@ class Feed extends Component {
     if (feedItem.comments && feedItem.comments.length > 0) {
       const commentsStr = comments.map((comment) => (
         <div>
-          <strong>{comment.username} </strong>
+          <span className={s.strongText}>{comment.username} </span>
           {comment.message}
         </div>
       ));

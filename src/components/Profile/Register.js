@@ -126,9 +126,9 @@ class Register extends Component {
     return (
       <div>
         <PageHeader>
-          Share your Pokemon Go experience.
+          Share your local Pokemon Go experience.
           <br />
-          <small>Sign up to view and post about sightings, catches, and gym battles!</small>
+          <small>Sign up to view and post feeds with other players in your local area!</small>
         </PageHeader>
         <h5 className={'text-danger'}>{this.state.errorMessage}</h5>
         <Form horizontal onSubmit={this.handleSubmit}>
