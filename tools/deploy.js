@@ -15,8 +15,8 @@ import fetch from './lib/fetch';
 // For more information visit http://gitolite.com/deploy.html
 const getRemote = (slot) => ({
   name: slot || 'production',
-  url: 'https://git.heroku.com/pokefeed-web.git',
-  website: 'http://pokefeed-web.herokuapp.com',
+  url: 'https://git.heroku.com/kit-web-0.git',
+  website: 'http://kit-web-0.herokuapp.com',
 });
 
 /**
